@@ -28,5 +28,5 @@ class Assinante(models.Model):
 class Administrador(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     cargo = models.CharField(max_length=100)             
-    is_superadmin = models.BooleanField(default=False)              
-
+    is_superadmin = models.BooleanField(default=False)         
+    is_staff = models.BooleanField(default=False)          

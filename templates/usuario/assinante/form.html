@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <form action="" method="post" class="container mt-5">
+        {% csrf_token %}
+        {{ usuario_form.as_p }}
+        {{ assinante_form.as_p }}
+        <button type="submit" class="btn btn-dark">Criar Conta</button>
+        <a href="/" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}
