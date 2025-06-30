@@ -1,30 +1,26 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">SEU NOME STREAMER</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#hero">Ao Vivo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#recent-videos">Vídeos Recentes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#schedule">Agenda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Sobre Mim</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#social">Redes Sociais</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-danger btn-sm" href="login.html" style="margin-left: 10px;">Entrar</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    {% if request.user.administrador %}
+                    <a href="{% url 'perfil_administrador' pk=request.user.administrador.id %}">Admin</a>
+                    {% if request.user.is_staff %}
+                    <a href="{% url 'listar_assinantes' %}" class="btn btn-dark w-100">Ver Assinantes</a>
+                    <a href="{% url 'listar_administradores' %}" class="btn btn-dark w-100">Ver Admins</a>
+                    {% else %}
+                    <a href="#">Criar Titulos</a>
+                    <a href="#">Criar Generos</a>
+                    {% endif %}
+                    
+                    {% else %}
+                    <a href="{% url 'perfil_assinante' pk=request.user.assinante.id %}">Conta</a>
+                    {% endif %}
+
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>

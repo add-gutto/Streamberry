@@ -3,8 +3,9 @@
 {% block content %}
     <form action="" method="post" class="container mt-5">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-dark">Enviar</button>
+        {{ usuario_form.as_p }}
+        {{ assinante_form.as_p }}
+        <button type="submit" class="btn btn-dark">Criar Conta</button>
         <a href="{{ cancelar_url }}" class="btn btn-secondary">Cancelar</a>
     </form>
 {% endblock %}

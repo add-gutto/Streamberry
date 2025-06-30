@@ -1,5 +1,37 @@
 {% extends '_base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+    <h2>Perfil do Assinante</h2>
 
+    <div class="card p-4 shadow-sm">
+        <h4>Olá, {{ assinante.usuario.nome }}!</h4>
+
+        <p><strong>Email:</strong> {{ assinante.usuario.email }}</p>
+        <p><strong>Data de Assinatura:</strong> {{ assinante.data_assinatura|date:"d/m/Y" }}</p>
+        <p><strong>Data de Renovação:</strong>
+            {% if assinante.data_renovacao %}
+            {{ assinante.data_renovacao|date:"d/m/Y" }}
+            {% else %}
+            Não definida
+            {% endif %}
+        </p>
+        <p><strong>Telefone:</strong> {{ assinante.telefone }}</p>
+        <p><strong>Endereço de Cobrança:</strong> {{ assinante.endereco_cobranca }}</p>
+
+        <div class="mt-4">
+            <a href="{% url 'editar_assinante' assinante.id %} " class="btn btn-primary me-2">Editar Perfil</a>
+            <a href="{% url 'desativar_assinante' assinante.id %} "
+                onclick="return confirm('Tem certeza que deseja cancelar a assinatura?');">Cancelar Assinatura</a>
+            {% if  request.user.administrador %}
+            <a href="{% url 'admin_alterar_senha_usuario' assinante.usuario.id %}" class="btn btn-warning me-2">Alterar
+                Senha do Usuário</a>
+            {% else %}
+            <a href="{% url 'alterar_senha'%}" class="btn btn-secondary me-2">Mudar Senha</a>
+            <a href="{% url 'logout_view'%} " class="btn btn-outline-dark">Sair</a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -22,5 +22,6 @@ from usuario import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("usuario/", include("usuario.urls")),
-    path("", views.home, name= "home")
+    path("", views.home, name= "home"),
+    path("titulos/", views.titulos, name="pagina_stream")
 ]

@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout/', usuario_views.logout_view, name='logout_view'),
     path('signup/', usuario_views.criarconta, name='signup_assinante'),
     path('desativar/<int:pk>/', usuario_views.desativarconta, name='desativar_assinante'),
+    path('reativar/<int:pk>/', usuario_views.reativar_conta, name='reativar_assinante'),
     path('editar/<int:pk>/', usuario_views.editar_assinante, name='editar_assinante'),
     path('perfil/<int:pk>/', usuario_views.visualizar_assinante, name='perfil_assinante'),
 

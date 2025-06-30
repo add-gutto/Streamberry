@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+
+{% block content %}
+  <h2>Conta Cancelada</h2>
+  <p>Sua conta está cancelada. Deseja reativar?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Reativar Conta</button>
+    <a href="{% url 'login_view' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+{% endblock %}

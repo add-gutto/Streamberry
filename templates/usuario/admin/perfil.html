@@ -1,0 +1,44 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Perfil do Administrador</h2>
+
+    <div class="card p-4 shadow-sm">
+        <h4>Olá, {{ administrador.usuario.nome }}!</h4>
+
+        <p><strong>Email:</strong> {{ administrador.usuario.email }}</p>
+        <p><strong>Cargo:</strong> {{ administrador.cargo }}</p>
+        <p><strong>Super Administrador:</strong> 
+            {% if administrador.is_superadmin %}
+                Sim
+            {% else %}
+                Não
+            {% endif %}
+        </p>
+        <p><strong>Tem permissão de staff:</strong> 
+            {% if administrador.is_staff %}
+                Sim
+            {% else %}
+                Não
+            {% endif %}
+        </p>
+
+        <div class="mt-4">
+            <a href="{% url 'editar_administrador' administrador.id %}" class="btn btn-primary me-2">Editar Perfil</a>
+            <a href="{% url 'admin_alterar_senha_usuario' administrador.usuario.id %}" class="btn btn-warning me-2">Alterar Senha</a>
+
+            {% if request.user.administrador.is_superadmin %}
+                <a href="{% url 'desativar_administrador' administrador.id %}" class="btn btn-danger me-2"
+                   onclick="return confirm('Tem certeza que deseja desativar este administrador?');">
+                    Desativar Administrador
+                </a>
+            {% endif %}
+
+            {% if request.user.administrador.id == administrador.id %}
+                <a href="{% url 'logout_view' %}" class="btn btn-outline-dark">Sair</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

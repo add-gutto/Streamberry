@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import (
     AuthenticationForm, PasswordChangeForm, SetPasswordForm,
@@ -12,41 +13,46 @@ from .forms import  UsuarioCreateForm, UsuarioChangeForm, AssinanteForm, Adminis
 def home(request):
     return render (request, "index.html")
 
+def titulos(request):
+    return render (request, "titulos.html")
+
 def login_view(request):
     form = AuthenticationForm(request, data=request.POST or None)
-    
+
     if request.method == 'POST' and form.is_valid():
         usuario = form.get_user()
 
         try:
             assinante = Assinante.objects.get(usuario=usuario)
             if assinante.status == 'cancelado':
-                return render(request, 'usuario/assinante/reativar.html', {
-                    'usuario': usuario,
-                    'assinante': assinante,
-                })
-            login(request, usuario)
-            return redirect('pagina_stream')  
+                return redirect('reativar_assinante', pk=assinante.pk)
         except Assinante.DoesNotExist:
-            pass
+            pass  
 
-        try:
-            administrador = Administrador.objects.get(usuario=usuario)
+        if Assinante.objects.filter(usuario=usuario).exists() or Administrador.objects.filter(usuario=usuario).exists():
             login(request, usuario)
-            return redirect('dashboard_admin')  
-        except Administrador.DoesNotExist:
-            pass
+            return redirect('pagina_stream')
 
-        messages.success(request, 'Usuario não encontrado.')
-        return render(request, 'usuario/login.html', {
-            'form': form,
-        })
+        messages.error(request, 'Usuário não é assinante nem administrador.')
 
     return render(request, 'usuario/login.html', {'form': form})
 
+def reativar_conta(request, pk):
+    assinante = get_object_or_404(Assinante, pk=pk)
+
+    if request.method == 'POST':
+        assinante.status = 'ativo'
+        assinante.save()
+        login(request, assinante.usuario)
+        return redirect('pagina_stream')  
+    
+    return render(request, 'usuario/assinante/reativar.html', {
+        'assinante': assinante,
+    })
+
 def logout_view(request):
     logout(request)
-    return redirect('login_view')
+    return redirect('home')
 
 def criarconta(request):
     if request.method == 'POST':
@@ -63,18 +69,18 @@ def criarconta(request):
         usuario_form = UsuarioCreateForm()
         assinante_form = AssinanteForm()
 
-    return render(request, "usuario/assinante/form.html", {
+    return render(request, "usuario/assinante/conta.html", {
         'usuario_form': usuario_form,
         'assinante_form': assinante_form,
+        'cancelar_url': reverse('home')
     })
-
 
 @login_required
 def desativarconta(request, pk):
     assinante = get_object_or_404(Assinante, pk=pk)
     assinante.status = 'cancelado'
     assinante.save()
-    return redirect('login_assinante')
+    return redirect('home')
 
 @login_required
 def editar_assinante(request, pk):
@@ -88,33 +94,37 @@ def editar_assinante(request, pk):
         if usuario_form.is_valid() and assinante_form.is_valid():
             usuario_form.save()
             assinante_form.save()
-            return redirect('visualizar_assinante', pk=pk)
+            return redirect('perfil_assinante', pk=pk)
     
     else:
         usuario_form = UsuarioChangeForm(instance=usuario)
         assinante_form = AssinanteForm(instance=assinante)
 
-    return render(request, "usuario/assinante/form.html", {
-        'usuario_form': usuario_form,
-        'assinante_form': assinante_form
-    })
+    return render(request, "usuario/assinante/conta.html", {
+    'usuario_form': usuario_form,
+    'assinante_form': assinante_form,
+    'cancelar_url': reverse('perfil_assinante', kwargs={'pk': pk})
+})
 
 @login_required
-def  visualizar_assinante(request, pk):
+def visualizar_assinante(request, pk):
     assinante = get_object_or_404(Assinante, pk=pk)
-    return render(request, "usuario/assinante/perfil.html", {'assinante' : assinante})
+
+    return render(request, "usuario/assinante/perfil.html", {
+        'assinante': assinante
+    })
     
 @login_required
 @permission_required('usuario.view_assinante', raise_exception=True)
 def listar_assinantes(request):
     assinantes = Assinante.objects.select_related('usuario').all()
-    return render(request, "usuario/assinante/index.html", {'assinantes': assinantes})
+    return render(request, "usuario/admin/index_assinantes.html", {'assinantes': assinantes})
 
 @login_required
 @permission_required('usuario.gerenciar_administradores', raise_exception=True)
 def listar_administradores(request):
     administradores = Administrador.objects.select_related('usuario').all()
-    return render(request, "usuario/admin/index.html", {'administradores': administradores})
+    return render(request, "usuario/admin/index_administradores.html", {'administradores': administradores})
 
 @login_required
 @permission_required('usuario.gerenciar_administradores', raise_exception=True)
@@ -146,7 +156,6 @@ def criar_administrador(request):
 
 
 @login_required
-@permission_required('usuario.gerenciar_administradores', raise_exception=True)
 def  visualizar_administrador(request, pk):
     administrador = get_object_or_404(Administrador, pk=pk)
     return render(request, "usuario/admin/perfil.html", {'administrador' : administrador})
@@ -160,7 +169,6 @@ def desativar_administrador(request, pk):
     return redirect('listar_administradores')
 
 @login_required
-@permission_required('usuario.gerenciar_administradores', raise_exception=True)
 def editar_administrador(request, pk):
     admin = get_object_or_404(Administrador, pk=pk)
     usuario = admin.usuario
@@ -203,7 +211,9 @@ def alterar_senha(request):
     else:
         form = PasswordChangeForm(user=request.user)
 
-    return render(request, 'usuario/assinante/form.html', {'form': form})
+    return render(request, 'usuario/assinante/form.html', 
+    {'form': form,
+     'cancelar_url': reverse('perfil_assinante', kwargs={'pk': request.user.assinante.id})})
 
 
 @login_required
@@ -219,7 +229,9 @@ def redefinir_senha(request):
     else:
         form = SetPasswordForm(user=request.user)
 
-    return render(request, 'usuario/assinante/form.html', {'form': form})
+    return render(request, 'usuario/assinante/form.html', 
+    {'form': form, 
+      'cancelar_url': reverse('perfil_assinante', kwargs={'pk': request.user.assinante.id})})
 
 def iniciar_reset_senha(request):
     if request.method == 'POST':
@@ -228,8 +240,8 @@ def iniciar_reset_senha(request):
             form.save(
                 request=request,
                 use_https=request.is_secure(),
-                email_template_name='usuario/assinante/email_reset_senha.html',
-                subject_template_name='usuario/assinante/email_reset_senha_subject.txt',
+                email_template_name='usuario/assinante/form.html',
+                subject_template_name='usuario/assinante/email_senha.txt',
             )
             messages.success(request, 'Email para redefinição de senha enviado.')
             return redirect('login_assinante')
@@ -238,10 +250,11 @@ def iniciar_reset_senha(request):
     else:
         form = PasswordResetForm()
 
-    return render(request, 'usuario/assinante/email_reset_senha.html', {'form': form})
+    return render(request, 'usuario/assinante/form.html', 
+    {'form': form,
+    'cancelar_url': reverse('login_view')})
 
 @login_required
-@permission_required('usuario.gerenciar_administradores', raise_exception=True)
 def admin_alterar_senha_usuario(request, pk):
     usuario = get_object_or_404(Usuario, pk=pk)
     
