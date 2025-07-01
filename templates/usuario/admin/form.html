@@ -2,13 +2,14 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Criar Novo Administrador</h2>
+    <h2>Alterar Senha de {{ usuario.email }}</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ usuario_form.as_p }}
-        {{ admin_form.as_p }}
-        <button type="submit" class="btn btn-success">Criar</button>
-        <a href="{% url 'listar_administradores' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+  {% csrf_token %}
+  {{ form.password1.label_tag }} {{ form.password1 }}
+  {{ form.password2.label_tag }} {{ form.password2 }}
+  <button type="submit" class="btn btn-success">Salvar</button>
+  <a href="{% url 'listar_administradores' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+
 </div>
 {% endblock %}

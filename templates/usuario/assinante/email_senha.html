@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Redefinição de senha</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; color: #333;">
+    <h2>Olá,</h2>
+
+    <p>Você solicitou a redefinição da sua senha para o Streamberry.</p>
+
+    <p>Para definir uma nova senha, clique no link abaixo:</p>
+
+    <p style="margin: 20px 0;">
+        <a href="{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}"
+           style="background-color: #e50914; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            Redefinir Senha
+        </a>
+    </p>
+
+    <p>Se você não fez essa solicitação, ignore este e-mail. Sua senha permanecerá inalterada.</p>
+
+    <p>Atenciosamente,<br>
+    Equipe Streamberry</p>
+</body>
+</html>

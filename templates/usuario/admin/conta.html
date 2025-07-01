@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Criar Novo Administrador</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ usuario_form.as_p }}
+        {{ admin_form.as_p }}
+        <button type="submit" class="btn btn-success">Criar</button>
+        <a href="{% url 'listar_administradores' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

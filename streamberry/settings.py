@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,11 @@ SECRET_KEY = "django-insecure-za7!e2_#ryr#6l%blmq!cq&yakh6uccm_i)^-zi+!(ldwsh$_y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    config('DOMAIN_APP'),  # <- Isso se estiver usando o domínio no .env
+]
 
 
 # Application definition
@@ -106,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE =  'pt-br'
 
 TIME_ZONE = "UTC"
 
@@ -127,6 +132,22 @@ MEDIA_ROOT = BASE_DIR/ 'media'
 
 LOGIN_URL = "/usuario/login/"
 LOGOUT_REDIRECT_URL = "/usuario/login/"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Para envio real
+
+EMAIL_HOST = 'smtp.gmail.com'             # Servidor do Gmail
+EMAIL_PORT = 587                          # Porta segura
+EMAIL_USE_TLS = True                      # Encriptação TLS
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')   # Email que você vai usar para enviar
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')       # Senha específica gerada (explico abaixo)
+DEFAULT_FROM_EMAIL = f"Streamberry <{config('EMAIL_HOST_USER')}>"
+
+CSRF_TRUSTED_ORIGINS = [
+    f'https://{config("DOMAIN_APP")}',
+]
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

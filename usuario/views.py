@@ -2,13 +2,18 @@ from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import (
-    AuthenticationForm, PasswordChangeForm, SetPasswordForm,
+    AuthenticationForm, PasswordChangeForm, 
     PasswordResetForm, AdminPasswordChangeForm
 )
 from django.contrib.auth import update_session_auth_hash, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import  Usuario, Administrador, Assinante
 from .forms import  UsuarioCreateForm, UsuarioChangeForm, AssinanteForm, AdministradorForm
+
+from decouple import config
+
+# Domínio vindo do .env
+DOMAIN = config('DOMAIN_APP')
 
 def home(request):
     return render (request, "index.html")
@@ -134,28 +139,24 @@ def criar_administrador(request):
         admin_form = AdministradorForm(request.POST)
 
         if usuario_form.is_valid() and admin_form.is_valid():
-            usuario = usuario_form.save(commit=False)
+            usuario = usuario_form.save()
             administrador = admin_form.save(commit=False)
-
-            # Sincronizando os acessos no usuário
-            usuario.is_staff = administrador.is_staff
-            usuario.is_superuser = administrador.is_superadmin
-            usuario.save()
-
             administrador.usuario = usuario
-            administrador.save()
+            administrador.save()  
             return redirect('listar_administradores')
     else:
         usuario_form = UsuarioCreateForm()
         admin_form = AdministradorForm()
 
-    return render(request, "usuario/admin/form.html", {
+    return render(request, "usuario/admin/conta.html", {
         'usuario_form': usuario_form,
         'admin_form': admin_form
     })
 
 
+
 @login_required
+@permission_required('usuario.view_administrador', raise_exception=True)
 def  visualizar_administrador(request, pk):
     administrador = get_object_or_404(Administrador, pk=pk)
     return render(request, "usuario/admin/perfil.html", {'administrador' : administrador})
@@ -169,6 +170,7 @@ def desativar_administrador(request, pk):
     return redirect('listar_administradores')
 
 @login_required
+@permission_required('usuario.editar_administrador', raise_exception=True)
 def editar_administrador(request, pk):
     admin = get_object_or_404(Administrador, pk=pk)
     usuario = admin.usuario
@@ -178,20 +180,14 @@ def editar_administrador(request, pk):
         admin_form = AdministradorForm(request.POST, instance=admin)
 
         if usuario_form.is_valid() and admin_form.is_valid():
-            administrador = admin_form.save(commit=False)
-
-            # Atualiza permissões no usuário
-            usuario.is_staff = administrador.is_staff
-            usuario.is_superuser = administrador.is_superadmin
-            usuario.save()
-
+            usuario_form.save()
             admin_form.save()
             return redirect('listar_administradores')
     else:
         usuario_form = UsuarioChangeForm(instance=usuario)
         admin_form = AdministradorForm(instance=admin)
 
-    return render(request, "usuario/admin/form.html", {
+    return render(request, "usuario/admin/conta.html", {
         'usuario_form': usuario_form,
         'admin_form': admin_form
     })
@@ -215,46 +211,32 @@ def alterar_senha(request):
     {'form': form,
      'cancelar_url': reverse('perfil_assinante', kwargs={'pk': request.user.assinante.id})})
 
-
-@login_required
-def redefinir_senha(request):
-    if request.method == 'POST':
-        form = SetPasswordForm(user=request.user, data=request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Senha redefinida com sucesso.')
-            return redirect('login_assinante')
-        else:
-            messages.error(request, 'Por favor, corrija os erros abaixo.')
-    else:
-        form = SetPasswordForm(user=request.user)
-
-    return render(request, 'usuario/assinante/form.html', 
-    {'form': form, 
-      'cancelar_url': reverse('perfil_assinante', kwargs={'pk': request.user.assinante.id})})
-
 def iniciar_reset_senha(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
         if form.is_valid():
             form.save(
                 request=request,
-                use_https=request.is_secure(),
-                email_template_name='usuario/assinante/form.html',
+                use_https=True,  
+                domain_override=DOMAIN,  
+                html_email_template_name='usuario/assinante/email_senha.html',
                 subject_template_name='usuario/assinante/email_senha.txt',
             )
             messages.success(request, 'Email para redefinição de senha enviado.')
-            return redirect('login_assinante')
+            return redirect('login_view')
         else:
             messages.error(request, 'Por favor, corrija os erros abaixo.')
     else:
         form = PasswordResetForm()
 
-    return render(request, 'usuario/assinante/form.html', 
-    {'form': form,
-    'cancelar_url': reverse('login_view')})
+    return render(request, 'usuario/assinante/form.html', {
+        'form': form,
+        'cancelar_url': reverse('login_view')
+    })
+
 
 @login_required
+@permission_required('usuario.gerenciar_administradores', raise_exception=True)
 def admin_alterar_senha_usuario(request, pk):
     usuario = get_object_or_404(Usuario, pk=pk)
     

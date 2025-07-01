@@ -9,20 +9,6 @@
 
         <p><strong>Email:</strong> {{ administrador.usuario.email }}</p>
         <p><strong>Cargo:</strong> {{ administrador.cargo }}</p>
-        <p><strong>Super Administrador:</strong> 
-            {% if administrador.is_superadmin %}
-                Sim
-            {% else %}
-                Não
-            {% endif %}
-        </p>
-        <p><strong>Tem permissão de staff:</strong> 
-            {% if administrador.is_staff %}
-                Sim
-            {% else %}
-                Não
-            {% endif %}
-        </p>
 
         <div class="mt-4">
             <a href="{% url 'editar_administrador' administrador.id %}" class="btn btn-primary me-2">Editar Perfil</a>

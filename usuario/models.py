@@ -70,7 +70,7 @@ class Assinante(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pausado')
     data_assinatura = models.DateField(auto_now_add=True)
-    data_renovacao = models.DateField(blank=True, null=True)
+    data_renovacao = models.DateField(auto_now_add=True)
     telefone = models.CharField(max_length=20)
     endereco_cobranca = models.TextField()
 
@@ -78,6 +78,8 @@ class Assinante(models.Model):
 # 4. Modelo Administrador relacionado ao Usuario
 class Administrador(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    cargo = models.CharField(max_length=100)
-    is_superadmin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    cargo = models.CharField(max_length=100, choices=[
+        ('gerente', 'Gerente'),
+        ('moderador', 'Moderador'),
+    ])
+

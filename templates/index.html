@@ -1,14 +1,27 @@
 {% extends '_base.html' %}
 
-{% block title %}Streamer - Filmes, Séries e Conteúdo Exclusivo{% endblock %}
+{% block title %}Streamberry - Home Page{% endblock %}
+{% load static %}
 
-{% block content %} {# O body aqui contém todo o conteúdo da sua home page #}
-    <div class="hero-full-screen">
-        <div class="hero-content-centered">
-            <h1>Filmes, Séries e Muito Mais. Sem Limites.</h1>
-            <p>Assista onde quiser. Cancele quando quiser.</p>
-            <a href="{% url 'signup_assinante' %}" class="btn btn-netflix-primary btn-lg me-3">Criar Conta</a>
-            <a href="{% url 'login_view' %}" class="btn btn-netflix-secondary btn-lg">Entrar</a>
+{% block content %}
+<div class="sign section--bg" data-bg="img/section/section.jpg">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="sign__content text-center">
+                    <form action="#" class="sign__form p-4">
+                        <a href="{% url 'home' %}" class="sign__logo mb-4 d-inline-block">
+                            <img src="{% static 'img/logo.svg' %}" alt="Streamberry Logo">
+                        </a>
+
+                        <div class="d-flex flex-column gap-3">
+                            <a class="sign__btn text-center" href="{% url 'signup_assinante' %}">Criar Conta</a>
+                            <a class="sign__btn text-center" href="{% url 'login_view' %}">Entrar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}

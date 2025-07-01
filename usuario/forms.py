@@ -12,6 +12,12 @@ class UsuarioChangeForm(UserChangeForm):
         model = Usuario
         fields = ['email', 'nome']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove o campo password para não aparecer no formulário
+        if 'password' in self.fields:
+            self.fields.pop('password')
+
 class AssinanteForm(forms.ModelForm):
     class Meta:
         model = Assinante
@@ -20,4 +26,4 @@ class AssinanteForm(forms.ModelForm):
 class AdministradorForm(forms.ModelForm):
     class Meta:
         model = Administrador
-        fields = ['cargo', 'is_superadmin', 'is_staff']
+        fields = ['cargo']

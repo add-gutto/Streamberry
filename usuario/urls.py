@@ -1,5 +1,7 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from usuario import views as usuario_views
+from django.urls import reverse_lazy
 
 urlpatterns = [
     # Assinantes
@@ -21,8 +23,14 @@ urlpatterns = [
 
     # Segurança
     path('senha/alterar/', usuario_views.alterar_senha, name='alterar_senha'),
-    path('senha/redefinir/', usuario_views.redefinir_senha, name='redefinir_senha'),
     path('senha/reset/', usuario_views.iniciar_reset_senha, name='iniciar_reset_senha'),
+    path('senha/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+    template_name='usuario/assinante/form.html',
+    success_url=reverse_lazy('password_reset_complete'),
+), name='password_reset_confirm'),
+    path('senha/sucesso/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='usuario/assinante/reset_sucesso.html'
+    ), name='password_reset_complete'),
     path('admin/senha/alterar/<int:pk>/', usuario_views.admin_alterar_senha_usuario, name='admin_alterar_senha_usuario'),
 ]
 

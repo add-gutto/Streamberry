@@ -3,42 +3,51 @@
 {% block title %}Streamer - Entrar ou Assinar{% endblock %}
 
 {% block content %}
-<div class="login-page-body">
-    <div class="login-card">
-        <h1>Login</h1>
+<div class="sign section--bg" data-bg="img/section/section.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form method="post" class="sign__form">
+                        <h2 class="sign__text"> Login</h2>
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
 
-        <form method="post">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                {{ form.non_field_errors }}
+                        <div class="sign__group">
+                            <input type="email" name="username" class="sign__input" id="email"
+                                placeholder="Email ou número de telefone" required
+                                value="{{ form.username.value|default_if_none:'' }}">
+                            {% if form.username.errors %}
+                            <div class="text-danger small">{{ form.username.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="sign__group">
+                            <input type="password" name="password" class="sign__input" id="password" placeholder="Senha"
+                                required>
+                            {% if form.password.errors %}
+                            <div class="text-danger small">{{ form.password.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="sign__btn">Entrar</button>
+
+                        <div class="sign__text">
+                            Novo por aqui? <a href="{% url 'signup_assinante'%}">Assine agora.</a>
+                        </div>
+                        <div class="sign__text">
+                            <a href="{% url 'iniciar_reset_senha'%}"> Esqueceu a senha?</a>
+                        </div>
+                    </form>
+                    <!-- end authorization form -->
+                </div>
             </div>
-            {% endif %}
-    
-            <div class="mb-3">
-                <input type="email" name="username" class="form-control-netflix" id="email"
-                    placeholder="Email ou número de telefone" required value="{{ form.username.value|default_if_none:'' }}">
-                {% if form.username.errors %}
-                <div class="text-danger small">{{ form.username.errors }}</div>
-                {% endif %}
-            </div>
-    
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control-netflix" id="password" placeholder="Senha"
-                    required>
-                {% if form.password.errors %}
-                <div class="text-danger small">{{ form.password.errors }}</div>
-                {% endif %}
-            </div>
-    
-            <button type="submit" class="btn btn-login-netflix">Entrar</button>
-    
-        </form>
-        <div class="login-signup-text mt-3">
-            Novo por aqui? <a href="{% url 'signup_assinante'%}">Assine agora.</a>
         </div>
-    
-         <a href="{% url 'iniciar_reset_senha'%}"> Esqueceu a senha?</a>
     </div>
 </div>
 {% endblock %}
