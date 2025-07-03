@@ -1,14 +1,111 @@
-{% extends "_base.html" %}
+{% extends '_base.html' %}
+
+{% block title %}Criar Conta{% endblock %}
+
+{% block extra_head %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    .align {
+        display: grid;
+        place-items: center;
+        color: #fff;
+    }
+
+.sign__input {
+  display: block;
+  margin-bottom: 1rem; /* Espaço entre os campos */
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 100%; /* largura padrão, pode ser sobrescrita pelo style inline */
+  box-sizing: border-box;
+}
+
+
+    .logo {
+        font-family: 'Inter', sans-serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: #e50914;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+
+    .btn {
+        display: block;
+        width: 48%;
+        padding: 14px 0;
+        margin: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #e50914;
+        border: none;
+        border-radius: 6px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .card-streamberry {
+        width: 50%;
+        color: #fff;
+    }
+
+    .btn:hover {
+        background-color: #f6121d;
+        color: #fff;
+    }
+
+    @media (max-width: 956px) {
+        .btn {
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 30px;
+        }
+
+        .col-6 {
+            width: 100% !important;
+        }
+
+        .card-streamberry {
+            width: 90%;
+        }
+
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Criar Novo Administrador</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ usuario_form.as_p }}
+<div class="sign__content d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card-streamberry">
+        <div class="sign__form">
+            <form method="post" style="width: 90%; height: 90%;">
+                {% csrf_token %}
+                <div class="align">
+                    <h2 class="logo">CRIAR CONTA</h2>
+                </div>
+
+                {{ usuario_form.non_field_errors }}
+                {{ assinante_form.non_field_errors }}
+
+                       {{ usuario_form.as_p }}
         {{ admin_form.as_p }}
-        <button type="submit" class="btn btn-success">Criar</button>
-        <a href="{% url 'listar_administradores' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+
+                <div class="section__wrap mt-4" style="width: 100%;">
+                    <button type="submit" class="btn w-100 mb-2">Criar Conta</button>
+                    <a href="{% url 'listar_administradores' %}" class="btn btn-secondary w-100">Cancelar</a>
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+    <!-- end authorization form -->
 </div>
 {% endblock %}

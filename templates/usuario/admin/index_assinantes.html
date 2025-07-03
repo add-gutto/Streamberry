@@ -2,6 +2,16 @@
 
 {% block title %}Assinantes{% endblock %}
 
+{% block extra_head %}
+<style>
+    .align {
+        display: grid;
+        place-items: center;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 {% include '_header.html' %}
 <section class="content">
@@ -11,14 +21,14 @@
         </div>
     </div>
 
-    <table class="col-12 container">
+    <table class="col-10 container" style="color: #ffff;">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Status</th>
-                <th>Ações</th>
+                <th class="align">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -28,8 +38,8 @@
                 <td>{{ assinante.usuario.nome }}</td>
                 <td>{{ assinante.usuario.email }}</td>
                 <td>{{ assinante.get_status_display }}</td>
-                <td>
-                    <a href="{% url 'perfil_assinante' assinante.id %}" class="btn btn-sm btn-outline-primary">Ver</a>
+                <td class="align">
+                    <a href="{% url 'perfil_assinante' assinante.id %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             {% empty %}

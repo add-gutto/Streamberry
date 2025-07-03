@@ -120,7 +120,7 @@ def visualizar_assinante(request, pk):
     })
     
 @login_required
-@permission_required('usuario.view_assinante', raise_exception=True)
+@permission_required('usuario.visualizar_usuarios', raise_exception=True)
 def listar_assinantes(request):
     assinantes = Assinante.objects.select_related('usuario').all()
     return render(request, "usuario/admin/index_assinantes.html", {'assinantes': assinantes})

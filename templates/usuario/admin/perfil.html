@@ -1,29 +1,110 @@
 {% extends '_base.html' %}
 
+{% block extra_head %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    .align {
+        display: grid;
+        place-items: center;
+        color: #fff;
+    }
+
+.sign__input {
+  display: block;
+  margin-bottom: 1rem; /* Espaço entre os campos */
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 100%; /* largura padrão, pode ser sobrescrita pelo style inline */
+  box-sizing: border-box;
+}
+
+
+    .logo {
+        font-family: 'Inter', sans-serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: #e50914;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+
+    .btn {
+        display: block;
+        width: 48%;
+        padding: 14px 0;
+        margin: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #e50914;
+        border: none;
+        border-radius: 6px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .card-streamberry {
+        width: 50%;
+        color: #fff;
+    }
+
+    .btn:hover {
+        background-color: #f6121d;
+        color: #fff;
+    }
+
+    @media (max-width: 956px) {
+        .btn {
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 30px;
+        }
+
+        .col-6 {
+            width: 100% !important;
+        }
+
+        .card-streamberry {
+            width: 90%;
+        }
+
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Perfil do Administrador</h2>
+<div class="sign__content d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card-streamberry p-4">
+        <div class="sign__form text-white">
 
-    <div class="card p-4 shadow-sm">
-        <h4>Olá, {{ administrador.usuario.nome }}!</h4>
+            <div class="align mb-4">
+                <h2 class="logo">PERFIL DO ADMINISTRADOR</h2>
+            </div>
 
-        <p><strong>Email:</strong> {{ administrador.usuario.email }}</p>
-        <p><strong>Cargo:</strong> {{ administrador.cargo }}</p>
+           <dl class="row text-white">
+    <dt class="col-sm-4">Nome:</dt>
+    <dd class="col-sm-8">{{ administrador.usuario.nome }}</dd>
 
-        <div class="mt-4">
-            <a href="{% url 'editar_administrador' administrador.id %}" class="btn btn-primary me-2">Editar Perfil</a>
-            <a href="{% url 'admin_alterar_senha_usuario' administrador.usuario.id %}" class="btn btn-warning me-2">Alterar Senha</a>
+    <dt class="col-sm-4">Email:</dt>
+    <dd class="col-sm-8">{{ administrador.usuario.email }}</dd>
 
-            {% if request.user.administrador.is_superadmin %}
-                <a href="{% url 'desativar_administrador' administrador.id %}" class="btn btn-danger me-2"
-                   onclick="return confirm('Tem certeza que deseja desativar este administrador?');">
-                    Desativar Administrador
-                </a>
-            {% endif %}
+    <dt class="col-sm-4">Cargo:</dt>
+    <dd class="col-sm-8">{{ administrador.get_cargo_display }}</dd>
 
-            {% if request.user.administrador.id == administrador.id %}
-                <a href="{% url 'logout_view' %}" class="btn btn-outline-dark">Sair</a>
-            {% endif %}
+</dl>
+
+
+            <div class="section__wrap mt-4" style="width: 100%;">
+                <a href="{% url 'editar_administrador' administrador.id %}" class="btn btn-primary">Editar Perfil</a>
+                <a href="{% url 'alterar_senha' %}" class="btn btn-secondary">Mudar Senha</a>
+                <a href="{% url 'logout_view' %}" class="btn btn-outline-light">Sair</a>
+            </div>
         </div>
     </div>
 </div>
