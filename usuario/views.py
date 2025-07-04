@@ -1,28 +1,32 @@
 from django.contrib import messages
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import (
-    AuthenticationForm, PasswordChangeForm, 
-    PasswordResetForm, AdminPasswordChangeForm
-)
 from django.contrib.auth import update_session_auth_hash, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.views import PasswordResetConfirmView
 from .models import  Usuario, Administrador, Assinante
-from .forms import  UsuarioCreateForm, UsuarioChangeForm, AssinanteForm, AdministradorForm
-
+from .forms import ( UsuarioCreateForm, UsuarioChangeForm, AssinanteForm, AdministradorForm, CustomAuthenticationForm, CustomPasswordChangeForm, 
+    CustomPasswordResetForm, CustomAdminPasswordChangeForm, CustomSetPasswordForm)
 from decouple import config
 
-# Domínio vindo do .env
-DOMAIN = config('DOMAIN_APP')
-
+# views dos titulos para testes de funcionamento
 def home(request):
     return render (request, "index.html")
 
 def titulos(request):
-    return render (request, "titulos.html")
+    return render (request, "Titulo/titulos.html")
+
+def detail_titulo_filme(request):
+    return render (request, "Titulo/detail_filme.html")
+
+def detail_titulo_serie(request):
+    return render (request, "Titulo/detail_serie.html")
+
+def search(request):
+    return render (request, "Titulo/search.html")
 
 def login_view(request):
-    form = AuthenticationForm(request, data=request.POST or None)
+    form = CustomAuthenticationForm(request, data=request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         usuario = form.get_user()
@@ -42,6 +46,10 @@ def login_view(request):
 
     return render(request, 'usuario/login.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
 def reativar_conta(request, pk):
     assinante = get_object_or_404(Assinante, pk=pk)
 
@@ -51,13 +59,12 @@ def reativar_conta(request, pk):
         login(request, assinante.usuario)
         return redirect('pagina_stream')  
     
-    return render(request, 'usuario/assinante/reativar.html', {
+    return render(request, 'usuario/assinante/form.html', {
         'assinante': assinante,
+        'cancelar_url': request.META.get('HTTP_REFERER'),
+        'form_title' : 'Sua conta foi cancelada, Reativar?',
+        'form_btn' : 'Reativar'
     })
-
-def logout_view(request):
-    logout(request)
-    return redirect('home')
 
 def criarconta(request):
     if request.method == 'POST':
@@ -77,7 +84,9 @@ def criarconta(request):
     return render(request, "usuario/assinante/conta.html", {
         'usuario_form': usuario_form,
         'assinante_form': assinante_form,
-        'cancelar_url': reverse('home')
+        'cancelar_url': request.META.get('HTTP_REFERER'),
+        'conta_title' : 'CRIAR CONTA',
+        'conta_btn' : 'CRIAR'
     })
 
 @login_required
@@ -108,13 +117,14 @@ def editar_assinante(request, pk):
     return render(request, "usuario/assinante/conta.html", {
     'usuario_form': usuario_form,
     'assinante_form': assinante_form,
-    'cancelar_url': reverse('perfil_assinante', kwargs={'pk': pk})
+    'cancelar_url': request.META.get('HTTP_REFERER'),
+    'conta_title' : 'EDITAR CONTA',
+    'conta_btn' : 'SALVAR'
 })
 
 @login_required
 def visualizar_assinante(request, pk):
     assinante = get_object_or_404(Assinante, pk=pk)
-
     return render(request, "usuario/assinante/perfil.html", {
         'assinante': assinante
     })
@@ -150,10 +160,11 @@ def criar_administrador(request):
 
     return render(request, "usuario/admin/conta.html", {
         'usuario_form': usuario_form,
-        'admin_form': admin_form
+        'admin_form': admin_form,
+        'cancelar_url': request.META.get('HTTP_REFERER'),
+         'conta_title' : 'CRIAR CONTA',
+         'form_btn' : 'CRIAR'
     })
-
-
 
 @login_required
 @permission_required('usuario.view_administrador', raise_exception=True)
@@ -189,36 +200,43 @@ def editar_administrador(request, pk):
 
     return render(request, "usuario/admin/conta.html", {
         'usuario_form': usuario_form,
-        'admin_form': admin_form
+        'admin_form': admin_form,
+       'cancelar_url': request.META.get('HTTP_REFERER'),
+     'conta_title' : 'EDITAR CONTA',
+     'conta_btn' : 'EDITAR'
     })
 
 
 @login_required
-def alterar_senha(request):
+def alterar_senha(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
     if request.method == 'POST':
-        form = PasswordChangeForm(user=request.user, data=request.POST)
+        form = CustomPasswordChangeForm(user=usuario, data=request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)
+            update_session_auth_hash(request, user)  
             messages.success(request, 'Senha alterada com sucesso.')
             return redirect('pagina_stream')
         else:
             messages.error(request, 'Por favor, corrija os erros abaixo.')
     else:
-        form = PasswordChangeForm(user=request.user)
+        form = CustomPasswordChangeForm(user=usuario)
 
-    return render(request, 'usuario/assinante/form.html', 
-    {'form': form,
-     'cancelar_url': reverse('perfil_assinante', kwargs={'pk': request.user.assinante.id})})
+    return render(request, 'usuario/assinante/form.html', {
+        'form': form,
+        'cancelar_url': request.META.get('HTTP_REFERER'),
+        'form_title' : 'Atualizar Senha',
+        'form_btn' : 'Salvar'
+    })
 
 def iniciar_reset_senha(request):
     if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
+        form = CustomPasswordResetForm(request.POST)
         if form.is_valid():
             form.save(
                 request=request,
                 use_https=True,  
-                domain_override=DOMAIN,  
+                domain_override= config('DOMAIN_APP'),  
                 html_email_template_name='usuario/assinante/email_senha.html',
                 subject_template_name='usuario/assinante/email_senha.txt',
             )
@@ -227,13 +245,14 @@ def iniciar_reset_senha(request):
         else:
             messages.error(request, 'Por favor, corrija os erros abaixo.')
     else:
-        form = PasswordResetForm()
+        form = CustomPasswordResetForm()
 
     return render(request, 'usuario/assinante/form.html', {
         'form': form,
-        'cancelar_url': reverse('login_view')
+        'cancelar_url': request.META.get('HTTP_REFERER'),
+        'form_title' : 'Esqueceu a senha?',
+        'form_btn' : 'Enviar'
     })
-
 
 @login_required
 @permission_required('usuario.gerenciar_administradores', raise_exception=True)
@@ -241,7 +260,7 @@ def admin_alterar_senha_usuario(request, pk):
     usuario = get_object_or_404(Usuario, pk=pk)
     
     if request.method == 'POST':
-        form = AdminPasswordChangeForm(usuario, request.POST)
+        form = CustomAdminPasswordChangeForm(usuario, request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, f'Senha do usuário {usuario.email} alterada com sucesso.')
@@ -249,6 +268,25 @@ def admin_alterar_senha_usuario(request, pk):
         else:
             messages.error(request, 'Por favor, corrija os erros abaixo.')
     else:
-        form = AdminPasswordChangeForm(usuario)
+        form =CustomAdminPasswordChangeForm(usuario)
     
-    return render(request, 'usuario/admin/form.html', {'form': form, 'usuario': usuario})
+    return render(request, 'usuario/admin/form.html', {
+        'form': form, 
+        'usuario': usuario, 
+         'cancelar_url': request.META.get('HTTP_REFERER'),
+        'form_title' : 'Alterar Senha do Usuário',
+        'form_btn' : 'Salvar'})
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'usuario/assinante/form.html'
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy('password_reset_complete')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_title'] = 'Redefinir Senha'
+        context['form_btn'] = 'Salvar'
+        context['cancelar_url'] = reverse_lazy('login_view')  
+        return context
+
+

@@ -4,6 +4,7 @@
 {% include '_header.html' %}
 
 <section class="home">
+		{% load static %}
 		<!-- home bg -->
 		<div class="owl-carousel home__bg">
 			<div class="item home__cover" data-bg="img/home/home__bg.jpg"></div>
@@ -32,13 +33,13 @@
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+									<h3 class="card__title"><a href="{% url 'detalhe_titulo_filme' %}">I Dream in Another Language</a></h3>
 									<span class="card__category">
 										<a href="#">Action</a>
 										<a href="#">Triler</a>
@@ -53,13 +54,13 @@
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+									<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">Benched</a></h3>
+									<h3 class="card__title"><a href="{% url 'detalhe_titulo_serie' %}">Benched</a></h3>
 									<span class="card__category">
 										<a href="#">Comedy</a>
 									</span>
@@ -73,7 +74,7 @@
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+										<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -94,7 +95,7 @@
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+									<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -183,7 +184,7 @@
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="img/covers/cover.jpg" alt="">
+											<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -223,7 +224,7 @@
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="img/covers/cover2.jpg" alt="">
+											<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -262,7 +263,7 @@
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="img/covers/cover3.jpg" alt="">
+											<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -303,7 +304,7 @@
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="img/covers/cover4.jpg" alt="">
+											<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -343,7 +344,7 @@
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="img/covers/cover5.jpg" alt="">
+											<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -383,7 +384,7 @@
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="img/covers/cover6.jpg" alt="">
+											<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -424,7 +425,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -445,7 +446,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+									<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -465,7 +466,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+									<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -487,7 +488,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+									<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -508,7 +509,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
+										<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -529,7 +530,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
+									<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -549,7 +550,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
+									<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -571,7 +572,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
+									<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -592,7 +593,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+									<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -613,7 +614,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+									<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -633,7 +634,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+									<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -655,7 +656,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -680,7 +681,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+									<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -701,7 +702,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -721,7 +722,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+										<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -743,7 +744,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+									<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -764,7 +765,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
+									<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -785,7 +786,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
+										<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -805,7 +806,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
+									<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -827,7 +828,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
+										<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -848,7 +849,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+									<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -869,7 +870,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+									<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -889,7 +890,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -911,7 +912,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+									<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -936,7 +937,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -957,7 +958,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+										<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -977,7 +978,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+									<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -999,7 +1000,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
+									<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1020,7 +1021,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+									<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1041,7 +1042,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
+									<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1061,7 +1062,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
+									<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1083,7 +1084,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
+										<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1104,7 +1105,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
+									<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1125,7 +1126,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
+										<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1145,7 +1146,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
+										<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1167,7 +1168,7 @@
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+										<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 									<a href="#" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -1205,7 +1206,7 @@
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="img/covers/cover.jpg" alt="">
+								<img src="{% static 'img/covers/cover.jpg' %}" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -1226,7 +1227,7 @@
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="img/covers/cover3.jpg" alt="">
+						<img src="{% static 'img/covers/cover3.jpg' %}" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -1246,7 +1247,7 @@
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="img/covers/cover2.jpg" alt="">
+								<img src="{% static 'img/covers/cover2.jpg' %}" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -1268,7 +1269,7 @@
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="img/covers/cover6.jpg" alt="">
+								<img src="{% static 'img/covers/cover6.jpg' %}" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -1289,7 +1290,7 @@
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="img/covers/cover4.jpg" alt="">
+								<img src="{% static 'img/covers/cover4.jpg' %}" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -1310,7 +1311,7 @@
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="img/covers/cover5.jpg" alt="">
+								<img src="{% static 'img/covers/cover5.jpg' %}" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -1335,73 +1336,6 @@
 		</div>
 	</section>
 	<!-- end expected premiere -->
-
-	<!-- partners -->
-	<section class="section">
-		<div class="container">
-			<div class="row">
-				<!-- section title -->
-				<div class="col-12">
-					<h2 class="section__title section__title--no-margin">Our Partners</h2>
-				</div>
-				<!-- end section title -->
-
-				<!-- section text -->
-				<div class="col-12">
-					<p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
-				</div>
-				<!-- end section text -->
-
-				<!-- partner -->
-				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="#" class="partner">
-						<img src="img/partners/themeforest-light-background.png" alt="" class="partner__img">
-					</a>
-				</div>
-				<!-- end partner -->
-
-				<!-- partner -->
-				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="#" class="partner">
-						<img src="img/partners/audiojungle-light-background.png" alt="" class="partner__img">
-					</a>
-				</div>
-				<!-- end partner -->
-
-				<!-- partner -->
-				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="#" class="partner">
-						<img src="img/partners/codecanyon-light-background.png" alt="" class="partner__img">
-					</a>
-				</div>
-				<!-- end partner -->
-
-				<!-- partner -->
-				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="#" class="partner">
-						<img src="img/partners/photodune-light-background.png" alt="" class="partner__img">
-					</a>
-				</div>
-				<!-- end partner -->
-
-				<!-- partner -->
-				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="#" class="partner">
-						<img src="img/partners/activeden-light-background.png" alt="" class="partner__img">
-					</a>
-				</div>
-				<!-- end partner -->
-
-				<!-- partner -->
-				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="#" class="partner">
-						<img src="img/partners/3docean-light-background.png" alt="" class="partner__img">
-					</a>
-				</div>
-				<!-- end partner -->
-			</div>
-		</div>
-	</section>
 
 	{% include '_fotter.html' %}
 {% endblock %}

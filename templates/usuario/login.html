@@ -1,16 +1,9 @@
 {% extends '_base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Entrar{% endblock %}
 
 {% block extra_head %}
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    .align {
-        display: grid;
-        place-items: center;
-    }
-
     .logo {
         font-family: 'Inter', sans-serif;
         font-size: 40px;
@@ -24,7 +17,7 @@
         display: block;
         width: 48%;
         padding: 14px 0;
-        margin-bottom: 1rem;
+        margin: 10px;
         font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
@@ -37,91 +30,42 @@
         text-decoration: none;
     }
 
-    .card-streamberry {
-        width: 50%;
+    .sign__input {
+        margin: 10px;
     }
 
-    .sign_text{
-        color: #fff;
-    }
-    a{
-        color: #f6121d;
-    }
-
-    .btn:hover {
-        background-color: #f6121d;
-        color: #fff;
-    }
-
-    @media (max-width: 956px) {
-        .btn {
-            width: 100%;
-        }
-
-        .logo {
-            font-size: 30px;
-        }
-
-        .sign__form {
-            padding: 2rem 1.5rem;
-            min-height: 700px;
-            /* mais altura em telas menores */
-        }
-
-        .col-6 {
-            width: 100% !important;
-        }
-
-        .card-streamberry {
-            width: 90%;
-        }
-
+    a {
+        color: #e50914;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="sign__content d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card-streamberry">
-        <div class="sign__form" style="height:  600px;">
-
-            <form class="align" method="post" style="width: 90%; height: 90%;">
-                <h2 class="logo"> ENTRAR</h2>
-                {% csrf_token %}
-                {% if form.non_field_errors %}
-                <div class="alert alert-danger">
+<div class="sign__content container">
+        <div class="sign__form container" style="color: #fff;" >
+                <form method="post" class="container" >
+                    {% csrf_token %}
+    
+                    <h2 class="logo" style="text-align: center;">Entrar</h2>
+    
                     {{ form.non_field_errors }}
-                </div>
-                {% endif %}
-
-                <div class="sign__group" style="width: 80%">
-                    <input type="email" name="username" class="sign__input" style="width: 100%" id="email"
-                        placeholder="Email ou número de telefone" required
-                        value="{{ form.username.value|default_if_none:'' }}">
-                    {% if form.username.errors %}
-                    <div class="text-danger small">{{ form.username.errors }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="sign__group" style="width: 80%">
-                    <input type="password" name="password" style="width: 100%" class="sign__input" id="password"
-                        placeholder="Senha" required>
-                    {% if form.password.errors %}
-                    <div class="text-danger small">{{ form.password.errors }}</div>
-                    {% endif %}
-                </div>
-
-                <button type="submit" class="btn" style="width: 80%">Entrar</button>
-
-                <div class="sign_text" >
-                    Novo por aqui? <a   href="{% url 'signup_assinante'%}">Assine agora.</a>
+    
+                    {{ form.as_p }}
+    
+    
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <button type="submit" class="btn w-100 mb-2">Entrar</button>
+                    </div>
+    
+                </form>
+                <div class="sign_text ">
+                    Novo por aqui? <a href="{% url 'signup_assinante'%}">Assine agora.</a>
                 </div>
                 <div class="text">
                     <a href="{% url 'iniciar_reset_senha'%}"> Esqueceu a senha?</a>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
     <!-- end authorization form -->
 </div>
 {% endblock %}

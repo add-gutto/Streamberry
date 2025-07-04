@@ -2,34 +2,6 @@
 
 {% block extra_head %}
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    .align {
-        display: grid;
-        place-items: center;
-        color: #fff;
-    }
-
-.sign__input {
-  display: block;
-  margin-bottom: 1rem; /* Espaço entre os campos */
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 16px;
-  width: 100%; /* largura padrão, pode ser sobrescrita pelo style inline */
-  box-sizing: border-box;
-}
-
-
-    .logo {
-        font-family: 'Inter', sans-serif;
-        font-size: 40px;
-        font-weight: 700;
-        color: #e50914;
-        text-decoration: none;
-        letter-spacing: 1px;
-    }
-
     .btn {
         display: block;
         width: 48%;
@@ -46,46 +18,34 @@
         transition: background-color 0.3s ease;
         text-decoration: none;
     }
-
-    .card-streamberry {
-        width: 50%;
-        color: #fff;
-    }
-
-    .btn:hover {
-        background-color: #f6121d;
-        color: #fff;
-    }
-
-    @media (max-width: 956px) {
-        .btn {
-            width: 100%;
-        }
-
-        .logo {
-            font-size: 30px;
-        }
-
-        .col-6 {
-            width: 100% !important;
-        }
-
-        .card-streamberry {
-            width: 90%;
-        }
-
-    }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="sign__content d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+{% include '_header.html' %}
 
-    <div class="card-streamberry">
-        <div class="sign__form align" style="min-height: 600px;" >
-            <h2 class="logo">Perfil do Assinante</h2>
-    
-            <h4 class="mb-3">Olá, {{ assinante.usuario.nome }}!</h4>
+<section class="section section--first section--bg" data-bg="img/section/section.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section__wrap">
+                    <!-- section title -->
+                    <h2 class="section__title">Perfil </h2>
+                    <!-- end section title -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title -->
+
+<!-- pricing -->
+<div class="section">
+    <div class="container">
+        <div class="row" style="color: #fff;">
+            <!-- plan features -->
+            <div class="col-12">
+                    <h4 class="mb-3">Olá, {{ assinante.usuario.nome }}!</h4>
     
             <dl class="row">
                 <dt class="col-sm-4">Email:</dt>
@@ -106,11 +66,15 @@
                 <dt class="col-sm-4">Telefone:</dt>
                 <dd class="col-sm-8">{{ assinante.telefone }}</dd>
     
-                <dt class="col-sm-4">Endereço de Cobrança:</dt>
+                <dt class="col-sm-4">Endereço: </dt>
                 <dd class="col-sm-8">{{ assinante.endereco_cobranca }}</dd>
             </dl>
-            <div class="section__wrap mt-4" style="width: 100%;">
-                    <a href="{% url 'editar_assinante' assinante.id %}" class="btn btn-primary">Editar Perfil</a>
+            </div>
+            <!-- end plan features -->
+        </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                 <a href="{% url 'editar_assinante' assinante.id %}" class="btn btn-primary">Editar Perfil</a>
                     <a href="{% url 'desativar_assinante' assinante.id %}"
                        onclick="return confirm('Tem certeza que deseja cancelar a assinatura?');"
                        class="btn btn-danger">
@@ -122,11 +86,11 @@
                             Alterar Senha do Usuário
                         </a>
                     {% else %}
-                        <a href="{% url 'alterar_senha' %}" class="btn btn-secondary">Mudar Senha</a>
-                        <a href="{% url 'logout_view' %}" class="btn btn-outline-dark">Deslogar</a>
+                        <a href="{% url 'alterar_senha' assinante.id %}" class="btn btn-secondary">Atualizar Senha</a>
                     {% endif %}
             </div>
-        </div>
+
     </div>
-</div>
-{% endblock %}
+    <!-- end pricing -->
+
+    {% endblock %}

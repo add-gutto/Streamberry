@@ -22,12 +22,12 @@ urlpatterns = [
     path('perfil/admin/<int:pk>/', usuario_views.visualizar_administrador, name='perfil_administrador'),
 
     # Segurança
-    path('senha/alterar/', usuario_views.alterar_senha, name='alterar_senha'),
+    path('senha/alterar/<int:pk>/', usuario_views.alterar_senha, name='alterar_senha'),
     path('senha/reset/', usuario_views.iniciar_reset_senha, name='iniciar_reset_senha'),
-    path('senha/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-    template_name='usuario/assinante/form.html',
-    success_url=reverse_lazy('password_reset_complete'),
-), name='password_reset_confirm'),
+    path('senha/reset/<uidb64>/<token>/',
+        usuario_views.CustomPasswordResetConfirmView.as_view(),
+        name='password_reset_confirm'
+    ),
     path('senha/sucesso/', auth_views.PasswordResetCompleteView.as_view(
         template_name='usuario/assinante/reset_sucesso.html'
     ), name='password_reset_complete'),

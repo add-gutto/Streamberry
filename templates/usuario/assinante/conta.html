@@ -4,25 +4,6 @@
 
 {% block extra_head %}
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    .align {
-        display: grid;
-        place-items: center;
-        color: #fff;
-    }
-
-.sign__input {
-  display: block;
-  margin-bottom: 1rem; /* Espaço entre os campos */
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 16px;
-  width: 100%; /* largura padrão, pode ser sobrescrita pelo style inline */
-  box-sizing: border-box;
-}
-
-
     .logo {
         font-family: 'Inter', sans-serif;
         font-size: 40px;
@@ -49,46 +30,19 @@
         text-decoration: none;
     }
 
-    .card-streamberry {
-        width: 50%;
-        color: #fff;
-    }
-
-    .btn:hover {
-        background-color: #f6121d;
-        color: #fff;
-    }
-
-    @media (max-width: 956px) {
-        .btn {
-            width: 100%;
-        }
-
-        .logo {
-            font-size: 30px;
-        }
-
-        .col-6 {
-            width: 100% !important;
-        }
-
-        .card-streamberry {
-            width: 90%;
-        }
-
+    .sign__input {
+        margin: 10px;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="sign__content d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card-streamberry">
-        <div class="sign__form">
-            <form method="post" style="width: 90%; height: 90%;">
+<div class="sign__content container">
+        <div class=" sign__form " style="color: #fff; "">
+            <form method="post" class="container" style="row-gap: 10px;">
                 {% csrf_token %}
-                <div class="align">
-                    <h2 class="logo">CRIAR CONTA</h2>
-                </div>
+
+                <h2 class="logo" style="text-align: center;">{{ conta_title }}</h2>
 
                 {{ usuario_form.non_field_errors }}
                 {{ assinante_form.non_field_errors }}
@@ -96,8 +50,8 @@
                 {{ usuario_form }}
                 {{ assinante_form }}
 
-                <div class="section__wrap mt-4" style="width: 100%;">
-                    <button type="submit" class="btn w-100 mb-2">Criar Conta</button>
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="submit" class="btn w-100 mb-2">{{ conta_btn }}</button>
                     <a href="{{ cancelar_url }}" class="btn btn-secondary w-100">Cancelar</a>
                 </div>
             </form>
@@ -105,7 +59,6 @@
 
 
         </div>
-    </div>
     <!-- end authorization form -->
 </div>
 {% endblock %}
