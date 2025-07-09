@@ -45,50 +45,54 @@
         <div class="row" style="color: #fff;">
             <!-- plan features -->
             <div class="col-12">
-                    <h4 class="mb-3">Olá, {{ assinante.usuario.nome }}!</h4>
-    
-            <dl class="row">
-                <dt class="col-sm-4">Email:</dt>
-                <dd class="col-sm-8">{{ assinante.usuario.email }}</dd>
-    
-                <dt class="col-sm-4">Data de Assinatura:</dt>
-                <dd class="col-sm-8">{{ assinante.data_assinatura|date:"d/m/Y" }}</dd>
-    
-                <dt class="col-sm-4">Data de Renovação:</dt>
-                <dd class="col-sm-8">
-                    {% if assinante.data_renovacao %}
+                <h4 class="mb-3">Olá, {{ assinante.usuario.nome }}!</h4>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Email:</dt>
+                    <dd class="col-sm-8">{{ assinante.usuario.email }}</dd>
+
+                    <dt class="col-sm-4">Data de Assinatura:</dt>
+                    <dd class="col-sm-8">{{ assinante.data_assinatura|date:"d/m/Y" }}</dd>
+
+                    <dt class="col-sm-4">Data de Renovação:</dt>
+                    <dd class="col-sm-8">
+                        {% if assinante.data_renovacao %}
                         {{ assinante.data_renovacao|date:"d/m/Y" }}
-                    {% else %}
+                        {% else %}
                         <span class="text-muted fst-italic">Não definida</span>
-                    {% endif %}
-                </dd>
-    
-                <dt class="col-sm-4">Telefone:</dt>
-                <dd class="col-sm-8">{{ assinante.telefone }}</dd>
-    
-                <dt class="col-sm-4">Endereço: </dt>
-                <dd class="col-sm-8">{{ assinante.endereco_cobranca }}</dd>
-            </dl>
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-4">Telefone:</dt>
+                    <dd class="col-sm-8">{{ assinante.telefone }}</dd>
+
+                    <dt class="col-sm-4">Endereço: </dt>
+                    <dd class="col-sm-8">{{ assinante.endereco_cobranca }}</dd>
+                </dl>
             </div>
             <!-- end plan features -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
         </div>
 
-            <div class="d-flex justify-content-center gap-3 mt-4">
-                 <a href="{% url 'editar_assinante' assinante.id %}" class="btn btn-primary">Editar Perfil</a>
-                    <a href="{% url 'desativar_assinante' assinante.id %}"
-                       onclick="return confirm('Tem certeza que deseja cancelar a assinatura?');"
-                       class="btn btn-danger">
-                        Cancelar Assinatura
-                    </a>
-        
-                    {% if request.user.administrador %}
-                        <a href="{% url 'admin_alterar_senha_usuario' assinante.usuario.id %}" class="btn btn-warning">
-                            Alterar Senha do Usuário
-                        </a>
-                    {% else %}
-                        <a href="{% url 'alterar_senha' assinante.id %}" class="btn btn-secondary">Atualizar Senha</a>
-                    {% endif %}
-            </div>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{% url 'editar_assinante' assinante.id %}" class="btn btn-primary">Editar Perfil</a>
+            <a href="{% url 'desativar_assinante' assinante.id %}"
+                onclick="return confirm('Tem certeza que deseja cancelar a assinatura?');" class="btn btn-danger">
+                Cancelar Assinatura
+            </a>
+
+            {% if request.user.administrador %}
+            <a href="{% url 'admin_alterar_senha_usuario' assinante.usuario.id %}" class="btn btn-warning">
+                Alterar Senha do Usuário
+            </a>
+            {% else %}
+            <a href="{% url 'alterar_senha' assinante.id %}" class="btn btn-secondary">Atualizar Senha</a>
+            {% endif %}
+        </div>
 
     </div>
     <!-- end pricing -->

@@ -32,5 +32,9 @@ urlpatterns = [
         template_name='usuario/assinante/reset_sucesso.html'
     ), name='password_reset_complete'),
     path('admin/senha/alterar/<int:pk>/', usuario_views.admin_alterar_senha_usuario, name='admin_alterar_senha_usuario'),
+    path("search/administradores/", usuario_views.search_administradores, name="search_administradores"),
+    path('search/assinantes/', usuario_views.search_assinantes, name='search_assinantes'),
+
+
 ]
 

@@ -38,27 +38,28 @@
 
 {% block content %}
 <div class="sign__content container">
-        <div class=" sign__form " style="color: #fff; "">
-            <form method="post" class="container" style="row-gap: 10px;">
-                {% csrf_token %}
+    <div class=" sign__form " style="color: #fff; "">
+            <form method=" post" class="container" style="row-gap: 10px;">
+        {% csrf_token %}
 
-                <h2 class="logo" style="text-align: center;">{{ conta_title }}</h2>
+        <h2 class="logo" style="text-align: center;">{{ conta_title }}</h2>
 
-                {{ usuario_form.non_field_errors }}
-                {{ assinante_form.non_field_errors }}
+        {{ usuario_form.non_field_errors }}
+        {{ assinante_form.non_field_errors }}
 
-                {{ usuario_form }}
-                {{ assinante_form }}
+        {{ usuario_form }}
+        {{ assinante_form }}
 
-                <div class="d-flex justify-content-center gap-3 mt-4">
-                    <button type="submit" class="btn w-100 mb-2">{{ conta_btn }}</button>
-                    <a href="{{ cancelar_url }}" class="btn btn-secondary w-100">Cancelar</a>
-                </div>
-            </form>
-
-
-
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button type="submit" class="btn w-100 mb-2">{{ conta_btn }}</button>
+            <a href="{{ cancelar_url }}" class="btn btn-secondary w-100">Cancelar</a>
         </div>
+
+        </form>
+
+
+
+    </div>
     <!-- end authorization form -->
 </div>
 {% endblock %}

@@ -16,42 +16,83 @@
 {% include '_header.html' %}
 <section class="content">
     <div class="home item">
-        <div class="container" >
-            <h1 class="home__title" >Lista de Assinantes</h1>
-            <div class="container">
-                <input type="text" style="background-color: #3f3e3e; height: 30px; margin: 10px;"  class=" col-10 form__input" placeholder="...">
-                <button type="button" style="padding: 10px;"><i class="icon ion-ios-search" style="font-size: 20px;"></i></button>
+        <div class="container">
+            <h1 class="home__title">Lista de Assinantes</h1>
+
+            <div class="container d-flex align-items-center">
+                <input type="text" id="busca-assinante" class="col-10 form__input" style="background-color: #3f3e3e; height: 30px; margin: 10px;" placeholder="Buscar por nome...">
+                <button type="button" id="btn-buscar-assinante" style="padding: 10px;">
+                    <i class="icon ion-ios-search" style="font-size: 20px;"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <table class="col-10 container" style="color: #ffff;">
+    <table class="col-10 container" style="color: #fff;">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Email</th>
-                <th>Status</th>
                 <th class="align">Ações</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tabela-assinante">
             {% for assinante in assinantes %}
             <tr>
                 <td>{{ assinante.id }}</td>
                 <td>{{ assinante.usuario.nome }}</td>
                 <td>{{ assinante.usuario.email }}</td>
-                <td>{{ assinante.get_status_display }}</td>
                 <td class="align">
                     <a href="{% url 'perfil_assinante' assinante.id %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5">Nenhum assinante encontrado.</td>
+                <td colspan="4">Nenhum assinante encontrado.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('btn-buscar-assinante').addEventListener('click', function () {
+    const busca = document.getElementById('busca-assinante').value;
+
+    fetch("{% url 'search_assinantes' %}?q=" + encodeURIComponent(busca))
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('tabela-assinante');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4">Nenhum assinante encontrado.</td></tr>';
+            } else {
+                data.forEach(assinante => {
+                    const row = `
+                        <tr>
+                            <td>${assinante.id}</td>
+                            <td>${assinante.nome}</td>
+                            <td>${assinante.email}</td>
+                            <td class="align">
+                                <a href="${assinante.url_perfil}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            }
+        })
+        .catch(error => console.error('Erro na busca:', error));
+});
+
+document.getElementById('busca-assinante').addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+        document.getElementById('btn-buscar-assinante').click();
+    }
+});
+</script>
 {% endblock %}

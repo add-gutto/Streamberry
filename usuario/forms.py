@@ -10,41 +10,25 @@ class UsuarioCreateForm(UserCreationForm):
     class Meta:
         model = Usuario
         fields = ['email', 'nome', 'password1', 'password2']
-        labels = {
-            'email': '',
-            'nome': '',
-            'password1': '',
-            'password2': '',
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Remover labels
-        for field in self.fields.values():
-            field.label = ""
+        # Placeholders personalizados
+        placeholders = {
+            'email': 'Email',
+            'nome': 'Nome completo',
+            'password1': 'Senha',
+            'password2': 'Confirme sua senha',
+        }
 
-        # Estilizar campos
-        self.fields['email'].widget.attrs.update({
-            'class': 'sign__input',
-            'placeholder': 'Email',
-            'style': 'width: 100%;'
-        })
-        self.fields['nome'].widget.attrs.update({
-            'class': 'sign__input',
-            'placeholder': 'Nome completo',
-            'style': 'width: 100%;'
-        })
-        self.fields['password1'].widget.attrs.update({
-            'class': 'sign__input',
-            'placeholder': 'Senha',
-            'style': 'width: 100%; max-width: 350px;'
-        })
-        self.fields['password2'].widget.attrs.update({
-            'class': 'sign__input',
-            'placeholder': 'Confirme sua senha',
-            'style': 'width: 100%; max-width: 350px;'
-        })
+        for name, field in self.fields.items():
+            field.label = ''
+            field.widget.attrs.update({
+                'class': 'sign__input',
+                'placeholder': placeholders.get(name, ''),
+                'style': 'width: 100%; background-color: #3f3e3e;',
+            })
 
 class UsuarioChangeForm(UserChangeForm):
     class Meta:
@@ -54,12 +38,12 @@ class UsuarioChangeForm(UserChangeForm):
             'email': forms.EmailInput(attrs={
                 'class': 'sign__input',
                 'placeholder': 'Email',
-                'style': 'width: 100%;'
+                'style': 'width: 100%; background-color: #3f3e3e;'
             }),
             'nome': forms.TextInput(attrs={
                 'class': 'sign__input',
                 'placeholder': 'Nome completo',
-                'style': 'width: 100%;'
+                'style': 'width: 100%; background-color: #3f3e3e;'
             })}
         labels = {
             'email': '',
@@ -85,12 +69,12 @@ class AssinanteForm(forms.ModelForm):
             'telefone': forms.TextInput(attrs={
                 'class': 'sign__input',
                 'placeholder': 'Telefone',
-                'style': 'width: 100%; max-width: 400px;'
+                'style': 'width: 100%; max-width: 400px; background-color: #3f3e3e;'
             }),
             'endereco_cobranca': forms.TextInput(attrs={
                 'class': 'sign__input',
                 'placeholder': 'Endereço',
-                'style': 'width: 100%;'
+                'style': 'width: 100%; background-color: #3f3e3e;'
             }),
         }
 
@@ -102,7 +86,7 @@ class AdministradorForm(forms.ModelForm):
         widgets = {
             'cargo': forms.Select(attrs={
                 'class': 'sign__input',
-                'style': 'width: 100%; max-width: 400px;',
+                'style': 'width: 100%; max-width: 400px; background-color: #3f3e3e;',
                 'placeholder': 'Cargo'
             }),
         }

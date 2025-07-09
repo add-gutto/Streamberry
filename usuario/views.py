@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import update_session_auth_hash, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
@@ -8,6 +8,7 @@ from .models import  Usuario, Administrador, Assinante
 from .forms import ( UsuarioCreateForm, UsuarioChangeForm, AssinanteForm, AdministradorForm, CustomAuthenticationForm, CustomPasswordChangeForm, 
     CustomPasswordResetForm, CustomAdminPasswordChangeForm, CustomSetPasswordForm)
 from decouple import config
+from django.http import JsonResponse
 
 # views dos titulos para testes de funcionamento
 def home(request):
@@ -143,6 +144,49 @@ def listar_administradores(request):
 
 @login_required
 @permission_required('usuario.gerenciar_administradores', raise_exception=True)
+def search_administradores(request):
+    busca = request.GET.get('q', '')
+    administradores = Administrador.objects.select_related('usuario')
+
+    if busca:
+        administradores = administradores.filter(usuario__nome__icontains=busca)
+
+    dados = [
+        {
+            'id': admin.id,
+            'nome': admin.usuario.nome,
+            'email': admin.usuario.email,
+            'cargo': admin.cargo,
+            'url_perfil': reverse('perfil_administrador', args=[admin.id])
+        }
+        for admin in administradores
+    ]
+
+    return JsonResponse(dados, safe=False)
+
+@login_required
+@permission_required('usuario.visualizar_usuarios', raise_exception=True)
+def search_assinantes(request):
+    busca = request.GET.get('q', '')
+    assinantes = Assinante.objects.select_related('usuario')
+
+    if busca:
+        assinantes = assinantes.filter(usuario__nome__icontains=busca)
+
+    dados = [
+        {
+            'id': assinante.id,
+            'nome': assinante.usuario.nome,
+            'email': assinante.usuario.email,
+            'url_perfil': reverse('perfil_assinante', args=[assinante.id]),
+        }
+        for assinante in assinantes
+    ]
+
+    return JsonResponse(dados, safe=False)
+
+@login_required
+@permission_required('usuario.gerenciar_administradores', raise_exception=True)
 def criar_administrador(request):
     if request.method == 'POST':
         usuario_form = UsuarioCreateForm(request.POST)
@@ -162,7 +206,7 @@ def criar_administrador(request):
         'usuario_form': usuario_form,
         'admin_form': admin_form,
         'cancelar_url': request.META.get('HTTP_REFERER'),
-         'conta_title' : 'CRIAR CONTA',
+         'conta_title' : 'CRIAR ADMIN',
          'form_btn' : 'CRIAR'
     })
 
@@ -280,7 +324,11 @@ def admin_alterar_senha_usuario(request, pk):
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'usuario/assinante/form.html'
     form_class = CustomSetPasswordForm
-    success_url = reverse_lazy('password_reset_complete')
+    success_url = reverse_lazy('login_view')  # <- vai para o login direto
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Senha atualizada com sucesso. Faça login com a nova senha.')
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -288,5 +336,5 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         context['form_btn'] = 'Salvar'
         context['cancelar_url'] = reverse_lazy('login_view')  
         return context
-
+    
 

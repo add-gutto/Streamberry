@@ -56,21 +56,26 @@
                     <dd class="col-sm-8">{{ administrador.get_cargo_display }}</dd>
             </div>
             <!-- end plan features -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
         </div>
 
-            <div class="d-flex justify-content-center gap-3 mt-4">
-                <a href="{% url 'editar_administrador' administrador.id %}" class="btn btn-outline-primary px-4"> Editar Perfil
-                </a>
-                {% if request.user.administrador.cargo == 'gerente' %}
-                        <a href="{% url 'admin_alterar_senha_usuario' administrador.usuario.id %}" class="btn btn-warning">
-                            Alterar Senha do Usuário
-                        </a>
-                 {% else %}
-                <a href="{% url 'alterar_senha' administrador.id %}"
-                    class="btn btn-outline-secondary px-4"> Atualizar Senha
-                </a>
-                 {% endif %}
-            </div>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{% url 'editar_administrador' administrador.id %}" class="btn btn-outline-primary px-4"> Editar
+                Perfil
+            </a>
+            {% if request.user.administrador.cargo == 'gerente' %}
+            <a href="{% url 'admin_alterar_senha_usuario' administrador.usuario.id %}" class="btn btn-warning">
+                Alterar Senha do Usuário
+            </a>
+            {% else %}
+            <a href="{% url 'alterar_senha' administrador.id %}" class="btn btn-outline-secondary px-4"> Atualizar Senha
+            </a>
+            {% endif %}
+        </div>
 
     </div>
     <!-- end pricing -->

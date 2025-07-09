@@ -42,30 +42,37 @@
 
 {% block content %}
 <div class="sign__content container">
-        <div class="sign__form container" style="color: #fff;" >
-                <form method="post" class="container" >
-                    {% csrf_token %}
-    
-                    <h2 class="logo" style="text-align: center;">Entrar</h2>
-    
-                    {{ form.non_field_errors }}
-    
-                    {{ form.as_p }}
-    
-    
-                    <div class="d-flex justify-content-center gap-3 mt-4">
-                        <button type="submit" class="btn w-100 mb-2">Entrar</button>
-                    </div>
-    
-                </form>
-                <div class="sign_text ">
-                    Novo por aqui? <a href="{% url 'signup_assinante'%}">Assine agora.</a>
-                </div>
-                <div class="text">
-                    <a href="{% url 'iniciar_reset_senha'%}"> Esqueceu a senha?</a>
-                </div>
+    <div class="sign__form container" style="color: #fff;">
+        <form method="post" class="container">
+            {% csrf_token %}
+
+            <h2 class="logo" style="text-align: center;">Entrar</h2>
+
+            {{ form.non_field_errors }}
+
+            {{ form.as_p }}
+
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <button type="submit" class="btn w-100 mb-2">Entrar</button>
             </div>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+
+        </form>
+        <div class="sign_text ">
+            Novo por aqui? <a href="{% url 'signup_assinante'%}">Assine agora.</a>
         </div>
-    <!-- end authorization form -->
+        <div class="text">
+            <a href="{% url 'iniciar_reset_senha'%}"> Esqueceu a senha?</a>
+        </div>
+    </div>
+</div>
+
+<!-- end authorization form -->
 </div>
 {% endblock %}

@@ -12,50 +12,91 @@
 </style>
 {% endblock %}
 
-
-
 {% block content %}
 {% include '_header.html' %}
 <section class="content">
-
     <div class="home item">
         <div class="container">
-            <h1 class="home__title" >Lista de Administradores</h1>
+            <h1 class="home__title">Lista de Administradores</h1>
             <a href="{% url 'criar_administrador' %}" class="btn btn-success mb-4">+ Novo Administrador</a>
-            <div class="container">
-                <input type="text" style="background-color: #3f3e3e; height: 30px; margin: 10px;"  class=" col-10 form__input" placeholder="...">
-                <button type="button" style="padding: 10px;"><i class="icon ion-ios-search" style="font-size: 20px;"></i></button>
+
+            <div class="container d-flex align-items-center">
+                <input type="text" id="busca-admin" class="col-10 form__input" style="background-color: #3f3e3e; height: 30px; margin: 10px;" placeholder="Buscar por nome...">
+                <button type="button" id="btn-buscar-admin" style="padding: 10px;">
+                    <i class="icon ion-ios-search" style="font-size: 20px;"></i>
+                </button>
             </div>
         </div>
     </div>
-    
-        <table class="col-10 container" style="color: #ffff;" >
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Cargo</th>
-                    <th class="align">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for admin in administradores %}
-                <tr>
-                    <td>{{ admin.id }}</td>
-                    <td>{{ admin.usuario.nome }}</td>
-                    <td>{{ admin.usuario.email }}</td>
-                    <td>{{ admin.cargo }}</td>
-                    <td class="align"> 
-                        <a href="{% url 'perfil_administrador' admin.id %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="7">Nenhum administrador encontrado.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+    <table class="col-10 container" style="color: #fff;">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Cargo</th>
+                <th class="align">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-admin">
+            {% for admin in administradores %}
+            <tr>
+                <td>{{ admin.id }}</td>
+                <td>{{ admin.usuario.nome }}</td>
+                <td>{{ admin.usuario.email }}</td>
+                <td>{{ admin.cargo }}</td>
+                <td class="align">
+                    <a href="{% url 'perfil_administrador' admin.id %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Nenhum administrador encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('btn-buscar-admin').addEventListener('click', function () {
+    const busca = document.getElementById('busca-admin').value;
+
+    fetch("{% url 'search_administradores' %}?q=" + encodeURIComponent(busca))
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('tabela-admin');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">Nenhum administrador encontrado.</td></tr>';
+            } else {
+                data.forEach(admin => {
+                    const row = `
+                        <tr>
+                            <td>${admin.id}</td>
+                            <td>${admin.nome}</td>
+                            <td>${admin.email}</td>
+                            <td>${admin.cargo}</td>
+                            <td class="align">
+                                <a href="${admin.url_perfil}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            }
+        })
+        .catch(error => console.error('Erro na busca:', error));
+});
+
+document.getElementById('busca-admin').addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+        document.getElementById('btn-buscar-admin').click();
+    }
+});
+</script>
 {% endblock %}

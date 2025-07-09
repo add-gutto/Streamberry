@@ -45,7 +45,8 @@
             <form method="post" style="width: 90%; height: 90%;">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <div class="d-flex justify-content-center gap-3 mt-4" >
+                
+                <div class="d-flex justify-content-center gap-3 mt-4">
                     <button type="submit" class="btn btn-primary">{{ form_btn }}</button>
                     <a href="{{ cancelar_url }}" class="btn btn-secondary w-100">Cancelar</a>
                 </div>
@@ -53,6 +54,6 @@
         </div>
     </div>
 </div>
-    <!-- end pricing -->
+<!-- end pricing -->
 
-    {% endblock %}
+{% endblock %}
