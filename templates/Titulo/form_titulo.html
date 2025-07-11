@@ -1,0 +1,11 @@
+{% extends 'usuario/_base.html' %}
+{% block content %}
+<h2>{{ form.instance.id|yesno:"Editar Título,Cadastrar Título" }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+    <a href="{% url 'visualizar_titulos' %}">Cancelar</a>
+</form>
+{% endblock %}

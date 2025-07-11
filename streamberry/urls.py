@@ -26,7 +26,11 @@ urlpatterns = [
     path("titulos/", views.titulos, name="pagina_stream"),
     path("titulos/detail/filme/", views.detail_titulo_filme, name="detalhe_titulo_filme"),
     path("titulos/detail/serie/", views.detail_titulo_serie, name="detalhe_titulo_serie"),
-    path("titulos/search/", views.search, name="search")
+    path("titulos/search/", views.search, name="search"),
+    path('titulos/', visualizar_titulos, name='visualizar_titulos'),
+    path('titulos/novo/', cadastrar_titulo, name='cadastrar_titulo'),
+    path('titulos/editar/<int:pk>/', atualizar_titulo, name='atualizar_titulo'),
+    path('titulos/remover/<int:pk>/', remover_titulo, name='remover_titulo')
 
 
 ]

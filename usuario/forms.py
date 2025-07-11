@@ -177,44 +177,29 @@ class CustomSetPasswordForm(SetPasswordForm):
             })
 
 
-from django.shortcuts import render, redirect, get_object_or_404
 from .models import Titulo
-from .forms import TituloForm
+import json
 
-# Cadastrar título
-def cadastrar_titulo(request):
-    if request.method == 'POST':
-        form = TituloForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('visualizar_titulo')
-    else:
-        form = TituloForm()
-    return render(request, 'titulos/form.html', {'form': form})
+class TituloForm(forms.ModelForm):
+    idiomadisponivel = forms.CharField(
+        widget=forms.Textarea,
+        help_text="Portugues, Ingles, Espanhol"
+    )
 
-# Remover título
-def remover_titulo(request, pk):
-    titulo = get_object_or_404(Titulo, pk=pk)
-    if request.method == 'POST':
-        titulo.delete()
-        return redirect('visualizar_titulo')
-    return render(request, 'titulos/confirm_delete.html', {'titulo': titulo})
+    class Meta:
+        model = Titulo
+        fields = ['titulo', 'descricao', 'idiomadisponivel']
 
-# Atualizar título
-def atualizar_titulo(request, pk):
-    titulo = get_object_or_404(Titulo, pk=pk)
-    if request.method == 'POST':
-        form = TituloForm(request.POST, instance=titulo)
-        if form.is_valid():
-            form.save()
-            return redirect('visualizar_titulo')
-    else:
-        form = TituloForm(instance=titulo)
-    return render(request, 'titulos/form.html', {'form': form})
+    def clean_idiomadisponivel(self):
+        data = self.cleaned_data['idiomadisponivel']
+        # transforma string "pt, en, es" em lista ["pt", "en", "es"]
+        lista = [x.strip() for x in data.split(',') if x.strip()]
+        return json.dumps(lista)
 
-# Visualizar títulos (lista)
-def visualizar_titulo(request):
-    titulos = Titulo.objects.all()
-    return render(request, 'titulos/list.html', {'titulos': titulos})
-
-
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # idiomadisponivel já está como JSON na cleaned_data
+        instance.idiomadisponivel = self.cleaned_data['idiomadisponivel']
+        if commit:
+            instance.save()
+        return instance

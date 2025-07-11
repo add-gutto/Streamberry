@@ -1,0 +1,12 @@
+{% extends 'usuario/_base.html' %}
+{% block content %}
+<h2>Remover Título</h2>
+
+<p>Tem certeza que deseja excluir o título <strong>{{ titulo.titulo }}</strong>?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Sim, remover</button>
+    <a href="{% url 'visualizar_titulos' %}">Cancelar</a>
+</form>
+{% endblock %}
