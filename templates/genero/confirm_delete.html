@@ -2,15 +2,80 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Remover Gênero</title>
+    <style>
+        /* Reset básico */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px 40px;
+            box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        button, a {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+        button {
+            background-color: #e53e3e; /* vermelho */
+            color: white;
+        }
+        button:hover {
+            background-color: #c53030;
+        }
+        a {
+            background-color: #a0aec0; /* cinza */
+            color: white;
+            line-height: 1.2;
+            display: inline-flex;
+            align-items: center;
+        }
+        a:hover {
+            background-color: #718096;
+        }
+    </style>
 </head>
 <body>
-    <h1>Tem certeza que deseja remover o gênero "{{ genero.nome }}"?</h1>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Sim, remover</button>
-        <a href="{% url 'visualizar_genero' %}">Cancelar</a>
-    </form>
+    <div class="container">
+        <h1>Tem certeza que deseja remover o gênero "<strong>{{ genero.nome }}</strong>"?</h1>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Sim, remover</button>
+            <a href="{% url 'visualizar_genero' %}">Cancelar</a>
+        </form>
+    </div>
 </body>
 </html>

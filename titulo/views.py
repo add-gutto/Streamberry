@@ -1,42 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Filme, Serie
+from .forms import FilmeForm, SerieForm
 
-# Create your views here.
-from .models import Titulo
-from .forms import TituloForm
+def listar_filmes(request):
+    filmes = Filme.objects.all()
+    return render(request, 'titulo/lista_filmes.html', {'filmes': filmes})
 
-# Cadastrar título
-def cadastrar_titulo(request):
+def cadastrar_filme(request):
     if request.method == 'POST':
-        form = TituloForm(request.POST)
+        form = FilmeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('visualizar_titulo')
+            return redirect('listar_filmes')
     else:
-        form = TituloForm()
-    return render(request, 'titulos/form.html', {'form': form})
+        form = FilmeForm()
+    return render(request, 'titulo/form_filme.html', {'form': form})
 
-# Remover título
-def remover_titulo(request, pk):
-    titulo = get_object_or_404(Titulo, pk=pk)
+def atualizar_filme(request, pk):
+    filme = get_object_or_404(Filme, pk=pk)
     if request.method == 'POST':
-        titulo.delete()
-        return redirect('visualizar_titulo')
-    return render(request, 'titulos/confirm_delete.html', {'titulo': titulo})
-
-# Atualizar título
-def atualizar_titulo(request, pk):
-    titulo = get_object_or_404(Titulo, pk=pk)
-    if request.method == 'POST':
-        form = TituloForm(request.POST, instance=titulo)
+        form = FilmeForm(request.POST, instance=filme)
         if form.is_valid():
             form.save()
-            return redirect('visualizar_titulo')
+            return redirect('listar_filmes')
     else:
-        form = TituloForm(instance=titulo)
-    return render(request, 'titulos/form.html', {'form': form})
+        form = FilmeForm(instance=filme)
+    return render(request, 'titulo/form_filme.html', {'form': form})
 
-# Visualizar títulos (lista)
-def visualizar_titulo(request):
-    titulos = Titulo.objects.all()
-    return render(request, 'titulos/list.html', {'titulos': titulos})
-
+def remover_filme(request, pk):
+    filme = get_object_or_404(Filme, pk=pk)
+    if request.method == 'POST':
+        filme.delete()
+        return redirect('listar_filmes')
+    return render(request, 'titulo/confirm_delete.html', {'titulo': filme})

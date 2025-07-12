@@ -1,12 +1,62 @@
-{% extends 'base.html' %}
+{% extends '_base.html' %}
+
+{% block title %}Remover Título{% endblock %}
+
+{% block extra_head %}
+<style>
+    .logo {
+        font-family: 'Inter', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: #e50914;
+        text-decoration: none;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #e50914;
+        border: none;
+        border-radius: 6px;
+        text-align: center;
+        text-decoration: none;
+        margin: 10px 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn.cancelar {
+        background-color: #555;
+    }
+
+    .confirm-container {
+        color: #fff;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .confirm-container p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h2>Remover Título</h2>
+<div class="container confirm-container">
+    <h2 class="logo">Remover Título</h2>
 
-<p>Tem certeza que deseja remover o título <strong>{{ titulo.titulo }}</strong>?</p>
+    <p>Tem certeza que deseja remover o título <strong>{{ titulo.titulo }}</strong>?</p>
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Sim, remover</button>
-    <a href="{% url 'visualizar_titulos' %}">Cancelar</a>
-</form>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn">Sim, remover</button>
+        <a href="{% url 'visualizar_titulos' %}" class="btn cancelar">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

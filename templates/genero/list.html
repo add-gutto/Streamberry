@@ -2,30 +2,127 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Lista de Gêneros</title>
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            max-width: 700px;
+            width: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px 40px;
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        a.cadastrar {
+            display: inline-block;
+            margin-bottom: 25px;
+            background-color: #3182ce;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+        a.cadastrar:hover {
+            background-color: #2c5282;
+        }
+        ul.generos-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        ul.generos-list > li {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 0;
+        }
+        ul.generos-list > li:last-child {
+            border-bottom: none;
+        }
+        .genero-nome {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+        .titulos-list {
+            margin: 8px 0 15px 15px;
+            padding-left: 0;
+            list-style-type: disc;
+            color: #4a5568;
+        }
+        .titulos-list li {
+            margin-bottom: 4px;
+        }
+        .acoes {
+            font-size: 0.95rem;
+        }
+        .acoes a {
+            color: #3182ce;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 600;
+            user-select: none;
+        }
+        .acoes a:hover {
+            text-decoration: underline;
+        }
+        .empty-msg {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            padding: 30px 0;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-    <h1>Gêneros Cadastrados</h1>
-    <a href="{% url 'cadastrar_genero' %}">Cadastrar Novo Gênero</a>
-    <ul>
-        {% for genero in generos %}
-            <li>
-                <strong>{{ genero.nome }}</strong><br>
-                Títulos:
-                <ul>
-                    {% for titulo in genero.lista.all %}
-                        <li>{{ titulo }}</li>
-                    {% empty %}
-                        <li>Nenhum título associado</li>
-                    {% endfor %}
-                </ul>
-                <a href="{% url 'atualizar_genero' genero.pk %}">Editar</a> |
-                <a href="{% url 'remover_genero' genero.pk %}">Remover</a>
-            </li>
-        {% empty %}
-            <li>Nenhum gênero cadastrado ainda.</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Gêneros Cadastrados</h1>
+        <a href="{% url 'cadastrar_genero' %}" class="cadastrar">Cadastrar Novo Gênero</a>
+
+        {% if generos %}
+        <ul class="generos-list">
+            {% for genero in generos %}
+                <li>
+                    <div class="genero-nome">{{ genero.nome }}</div>
+                    <div><strong>Títulos:</strong></div>
+                    {% if genero.lista.all %}
+                    <ul class="titulos-list">
+                        {% for titulo in genero.lista.all %}
+                            <li>{{ titulo }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="empty-msg">Nenhum título associado</div>
+                    {% endif %}
+                    <div class="acoes">
+                        <a href="{% url 'atualizar_genero' genero.pk %}">Editar</a>
+                        <a href="{% url 'remover_genero' genero.pk %}">Remover</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <div class="empty-msg">Nenhum gênero cadastrado ainda.</div>
+        {% endif %}
+    </div>
 </body>
 </html>
