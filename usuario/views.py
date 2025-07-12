@@ -337,4 +337,3 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         context['cancelar_url'] = reverse_lazy('login_view')  
         return context
     
-

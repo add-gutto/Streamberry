@@ -1,0 +1,17 @@
+<!-- templates/genero/form.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar/Editar Gênero</title>
+</head>
+<body>
+    <h1>{{ form.instance.pk|yesno:"Editar Gênero,Cadastrar Gênero" }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+        <a href="{% url 'visualizar_genero' %}">Cancelar</a>
+    </form>
+</body>
+</html>

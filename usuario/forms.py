@@ -176,5 +176,3 @@ class CustomSetPasswordForm(SetPasswordForm):
                 'style': 'width: 100%; background-color: #3f3e3e;',
             })
 
-
-
