@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<h1>Excluir Filme</h1>
+
+<p>Tem certeza que deseja remover o filme "{{ filme.titulo }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sim, excluir</button>
+    <a href="{% url 'listar_filmes' %}">Cancelar</a>
+</form>
+{% endblock %}

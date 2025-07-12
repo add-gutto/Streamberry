@@ -28,3 +28,10 @@ urlpatterns = [
     path("titulos/detail/serie/", views.detail_titulo_serie, name="detalhe_titulo_serie"),
     path("titulos/search/", views.search, name="search")
 ]
+
+from django.urls import path, include
+
+urlpatterns = [
+    path('filmes/', include('filme.urls')),
+    path('titulos/', include('titulo.urls')),
+]

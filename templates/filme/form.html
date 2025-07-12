@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form.instance.pk|yesno:"Editar Filme,Cadastrar Filme" }}{% endblock %}
+
+{% block content %}
+<h1>{{ form.instance.pk|yesno:"Editar Filme,Cadastrar Filme" }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+
+    <button type="submit">Salvar</button>
+    <a href="{% url 'listar_filmes' %}">Cancelar</a>
+</form>
+{% endblock %}
