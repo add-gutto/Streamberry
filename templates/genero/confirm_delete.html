@@ -1,0 +1,16 @@
+<!-- templates/genero/confirm_delete.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover Gênero</title>
+</head>
+<body>
+    <h1>Tem certeza que deseja remover o gênero "{{ genero.nome }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sim, remover</button>
+        <a href="{% url 'visualizar_genero' %}">Cancelar</a>
+    </form>
+</body>
+</html>

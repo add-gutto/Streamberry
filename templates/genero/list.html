@@ -1,0 +1,31 @@
+<!-- templates/genero/list.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Gêneros</title>
+</head>
+<body>
+    <h1>Gêneros Cadastrados</h1>
+    <a href="{% url 'cadastrar_genero' %}">Cadastrar Novo Gênero</a>
+    <ul>
+        {% for genero in generos %}
+            <li>
+                <strong>{{ genero.nome }}</strong><br>
+                Títulos:
+                <ul>
+                    {% for titulo in genero.lista.all %}
+                        <li>{{ titulo }}</li>
+                    {% empty %}
+                        <li>Nenhum título associado</li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'atualizar_genero' genero.pk %}">Editar</a> |
+                <a href="{% url 'remover_genero' genero.pk %}">Remover</a>
+            </li>
+        {% empty %}
+            <li>Nenhum gênero cadastrado ainda.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
