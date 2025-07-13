@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Genero
 from titulo.models import Titulo
 from .forms import GeneroForm
 
+@login_required
+@permission_required('usuario.gerenciar_genero', raise_exception=True)
 def cadastrar_genero(request):
     if request.method == 'POST':
         form = GeneroForm(request.POST)
@@ -13,7 +16,8 @@ def cadastrar_genero(request):
         form = GeneroForm()
     return render(request, 'genero/form.html', {'form': form})
 
-
+@login_required
+@permission_required('usuario.gerenciar_genero', raise_exception=True)
 def remover_genero(request, pk):
     genero = get_object_or_404(Genero, pk=pk)
     if request.method == 'POST':
@@ -24,7 +28,8 @@ def remover_genero(request, pk):
         'cancelar_url': request.META.get('HTTP_REFERER')  # Volta para a página anterior
     })
 
-
+@login_required
+@permission_required('usuario.gerenciar_genero', raise_exception=True)
 def atualizar_genero(request, pk):
     genero = get_object_or_404(Genero, pk=pk)
     if request.method == 'POST':

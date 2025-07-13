@@ -14,6 +14,8 @@ def criar_grupos_e_permissoes(sender, **kwargs):
         {'codename': 'visualizar_usuarios', 'name': 'Pode visualizar usuários'},
         {'codename': 'view_administrador', 'name': 'Pode visualizar administradores'},
         {'codename': 'editar_administrador', 'name': 'Pode editar administradores'},
+        {'codename': 'gerenciar_titulos', 'name': 'Pode gerenciar Titulos'},
+        {'codename': 'gerenciar_genero', 'name': 'Pode gerenciar Genero'},
     ]
 
     permissoes_objs = []
@@ -34,4 +36,6 @@ def criar_grupos_e_permissoes(sender, **kwargs):
     moderador_group.permissions.set([
         Permission.objects.get(codename='editar_administrador'),
         Permission.objects.get(codename='view_administrador'),
+         Permission.objects.get(codename='gerenciar_titulos'),
+          Permission.objects.get(codename='gerenciar_genero'),
     ])

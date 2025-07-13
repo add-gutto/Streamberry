@@ -137,6 +137,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = "/usuario/login/"
 LOGOUT_REDIRECT_URL = "/usuario/login/"
+DEBUG = True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Para envio real

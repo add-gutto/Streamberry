@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import  Titulo, Filme , Serie
 from .forms import FilmeForm 
 from favorito.models import Favorito
@@ -64,6 +65,8 @@ def listar_filmes(request):
     filmes = Filme.objects.all()
     return render(request, 'titulo/search_filme.html', {'filmes': filmes})
 
+@login_required
+@permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def cadastrar_filme(request):
     if request.method == 'POST':
         form = FilmeForm(request.POST)
@@ -80,6 +83,9 @@ def cadastrar_filme(request):
         'form_title' : 'Cadastrar Filme',
         'form_btn' : 'Cadastrar'})
 
+
+@login_required
+@permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def editar_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
     if request.method == 'POST':
@@ -97,10 +103,21 @@ def editar_filme(request, pk):
         'form_title' : 'Cadastrar Filme',
         'form_btn' : 'Cadastrar'})
 
+@login_required
+@permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def remover_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
 
     if request.method == 'POST':
         filme.delete() 
         return redirect('listar_filmes')
+    
+
+    
+def erro_404(request, exception):
+    return render(request, '404.html', status=404)
+
+def erro_500(request):
+    return render(request, '500.html', status=500)
+
 

@@ -27,3 +27,6 @@ urlpatterns = [
     path("genero/", include("genero.urls")),
     path("", views.home, name= "home"),
 ]
+
+handler404 = 'titulo.views.erro_404'
+handler500 = 'titulo.views.erro_500'
