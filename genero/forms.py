@@ -5,7 +5,5 @@ from .models import Genero
 class GeneroForm(forms.ModelForm):
     class Meta:
         model = Genero
-        fields = ['nome', 'lista']
-        widgets = {
-            'lista': forms.CheckboxSelectMultiple()
-        }
+        fields = ['nome']  # Remova 'lista' se ele não existe no model
+

@@ -74,7 +74,7 @@
         <form method="post">
             {% csrf_token %}
             <button type="submit">Sim, remover</button>
-            <a href="{% url 'visualizar_genero' %}">Cancelar</a>
+            <a href="{{cancelar_url}}">Cancelar</a>
         </form>
     </div>
 </body>

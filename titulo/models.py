@@ -1,9 +1,11 @@
 from django.db import models
+from genero.models import Genero
 
 class Titulo(models.Model):
     titulo = models.CharField(max_length=255)
     ano_lancamento = models.PositiveIntegerField()
     sinopse = models.TextField()
+    generos = models.ManyToManyField(Genero)
 
 class Filme(Titulo):
     duracao_minutos = models.PositiveIntegerField()

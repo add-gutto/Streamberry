@@ -1,7 +1,15 @@
 from django import forms
 from .models import Filme
+from genero.models import Genero
 
 class FilmeForm(forms.ModelForm):
+    generos = forms.ModelMultipleChoiceField(
+        queryset=Genero.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        label="Gêneros"
+    )
+
     class Meta:
         model = Filme
         fields = '__all__'
@@ -9,13 +17,15 @@ class FilmeForm(forms.ModelForm):
             'titulo': 'Nome do Filme',
             'ano_lancamento': 'Ano de Lançamento',
             'sinopse': 'Sinopse',
-            'duracao_minutos': 'Duração (em minutos)'
+            'duracao_minutos': 'Duração (em minutos)',
+            'generos': 'Gêneros',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'sign__input',
-                'style': 'width: 100%; background-color: #3f3e3e; color: white; border: none; padding: 10px; margin-bottom: 15px;'
-            })
+            if name != 'generos':  # NÃO sobrescrever atributos do widget checkbox dos gêneros
+                field.widget.attrs.update({
+                    'class': 'sign__input',
+                    'style': 'width: 100%; background-color: #3f3e3e; color: white; border: none; padding: 10px; margin-bottom: 15px;'
+                })

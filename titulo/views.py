@@ -14,9 +14,21 @@ def titulos(request):
     return render (request, "titulo/titulos.html", {'filmes': filmes, 'series': series})
 
 def detail_titulo_filme(request, pk):
-   filme = get_object_or_404(Filme, pk=pk)
-   filmes = Filme.objects.all()
-   return render(request, "titulo/detail_filme.html", {'filme': filme, 'sugestoes': filmes})
+    filme = get_object_or_404(Filme, pk=pk)
+
+    # Gêneros do filme atual
+    generos_do_filme = filme.generos.all()
+
+    # Títulos (filmes ou séries) com ao menos um gênero em comum, excluindo o próprio
+    titulos_relacionados = Titulo.objects.filter(
+        generos__in=generos_do_filme
+    ).exclude(id=filme.id).distinct()
+
+    return render(request, "titulo/detail_filme.html", {
+        'filme': filme,
+        'sugestoes': titulos_relacionados
+    })
+
 
 def detail_titulo_serie(request):
     #serie = get_object_or_404(Serie, pk= pk)

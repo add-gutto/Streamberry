@@ -1,107 +1,59 @@
-<!-- templates/genero/form.html -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8" />
-    <title>{{ form.instance.pk|yesno:"Editar Gênero,Cadastrar Gênero" }}</title>
-    <style>
-        body {
-            background-color: #f9fafb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 450px;
-            width: 90%;
-        }
-        h1 {
-            margin-bottom: 25px;
-            color: #333;
-            font-size: 1.4rem;
-            text-align: center;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #555;
-        }
-        input[type="text"], select, textarea {
-            padding: 10px 12px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1.5px solid #cbd5e0;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        input[type="text"]:focus, select:focus, textarea:focus {
-            border-color: #3182ce;
-            outline: none;
-        }
-        .checkboxselectmultiple {
-            margin-bottom: 20px;
-        }
-        button {
-            background-color: #3182ce;
-            border: none;
-            color: white;
-            padding: 12px 0;
-            font-weight: 700;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease;
-            user-select: none;
-        }
-        button:hover {
-            background-color: #2c5282;
-        }
-        a {
-            margin-top: 15px;
-            text-align: center;
-            display: block;
-            color: #718096;
-            font-weight: 600;
-            text-decoration: none;
-            user-select: none;
-        }
-        a:hover {
-            color: #4a5568;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
+{% extends '_base.html' %}
+
+{% block extra_head %}
+<style>
+    .btn {
+        display: block;
+        width: 48%;
+        padding: 14px 0;
+        margin: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #e50914;
+        border: none;
+        border-radius: 6px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="section section--first section--bg" data-bg="img/section/section.jpg">
     <div class="container">
-        <h1>{{ form.instance.pk|yesno:"Editar Gênero,Cadastrar Gênero" }}</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            {% for field in form %}
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                    <small style="color:#718096;">{{ field.help_text }}</small>
-                {% endif %}
-                {% for error in field.errors %}
-                    <p style="color: #e53e3e; margin: 4px 0 10px;">{{ error }}</p>
-                {% endfor %}
-            {% endfor %}
-            <button type="submit">Salvar</button>
-        </form>
-        <a href="{% url 'visualizar_genero' %}">Cancelar</a>
+        <div class="row">
+            <div class="col-12">
+                <div class="section__wrap">
+                    <!-- section title -->
+                    <h2 class="section__title">{{ form_title }}</h2>
+                    <!-- end section title -->
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</section>
+<!-- end page title -->
+
+<!-- pricing -->
+<div class="section">
+    <div class="container">
+        <div class="row" style="color: #fff;">
+            <form method="post" style="width: 90%; height: 90%;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="submit" class="btn btn-primary">{{ form_btn }}</button>
+                    <a href="{{ cancelar_url }}" class="btn btn-secondary w-100">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end pricing -->
+
+{% endblock %}

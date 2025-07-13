@@ -16,55 +16,17 @@
 </section>
 
 <div class="filter">
-	{% load static %}
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="filter__content">
-					<div class="filter__items">
-						<!-- filter item: GENRE -->
-						<div class="filter__item" id="filter__genre">
-							<span class="filter__item-label">Gênero:</span>
-							<div class="filter__item-btn dropdown-toggle" id="filter-genre" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">
-								<input type="button" value="Todos">
-								<span></span>
-							</div>
-							<ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
-								aria-labelledby="filter-genre">
-								<li>Ação</li>
-								<li>Comédia</li>
-								<li>Drama</li>
-								<li>Terror</li>
-								<li>Romance</li>
-							</ul>
-						</div>
-						<!-- filter item: YEAR -->
-						<div class="filter__item" id="filter__year">
-							<span class="filter__item-label">Ano:</span>
-							<div class="filter__item-btn dropdown-toggle" id="filter-year" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">
-								<input type="button" value="Todos">
-								<span></span>
-							</div>
-							<ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
-								aria-labelledby="filter-year">
-								<li>2025</li>
-								<li>2024</li>
-								<li>2023</li>
-								<li>2022</li>
-							</ul>
-						</div>
-					</div>
-					{% if request.user.administrador.cargo == 'moderador' %}
-					<a href="{% url 'cadastrar_filme' %}">+ Cadastrar novo filme</a>
-					{% endif %}
-
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 60px;">
+                {% if request.user.administrador.cargo == 'moderador' %}
+                <a href="{% url 'cadastrar_filme' %}">+ Cadastrar novo filme</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- catalog -->
 <div class="catalog">

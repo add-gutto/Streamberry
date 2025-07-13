@@ -18,6 +18,24 @@
         transition: background-color 0.3s ease;
         text-decoration: none;
     }
+
+   input[type="checkbox"] {
+  display: inline-block !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 6px;
+  vertical-align: middle;
+  cursor: pointer;
+  /* Remova background-color para manter padrão do navegador */
+  background-color: transparent !important;
+  /* Não sobrescreva a aparência, para manter o estilo padrão */
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  /* Para Firefox */
+  -moz-appearance: checkbox !important;
+}
+
+
 </style>
 {% endblock %}
 
@@ -45,7 +63,7 @@
             <form method="post" style="width: 90%; height: 90%;">
                 {% csrf_token %}
                 {{ form.as_p }}
-                
+
                 <div class="d-flex justify-content-center gap-3 mt-4">
                     <button type="submit" class="btn btn-primary">{{ form_btn }}</button>
                     <a href="{{ cancelar_url }}" class="btn btn-secondary w-100">Cancelar</a>

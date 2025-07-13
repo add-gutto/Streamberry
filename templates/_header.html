@@ -1,13 +1,13 @@
 {% block extra_head %}
-<style>  
-    .Header_logo {
-        font-family: 'Inter', sans-serif;
-        font-size: 30px;
-        font-weight: 700;
-        color: #e50914;
-        text-decoration: none;
-        letter-spacing: 1px;
-    }
+<style>
+	.Header_logo {
+		font-family: 'Inter', sans-serif;
+		font-size: 30px;
+		font-weight: 700;
+		color: #e50914;
+		text-decoration: none;
+		letter-spacing: 1px;
+	}
 </style>
 {% endblock %}
 
@@ -32,9 +32,37 @@
 									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gênero</a>
 
 								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
-									<li><a href="#">Romance</a></li>
-									<li><a href="#">Comédia</a></li>
+									<!-- Gêneros cadastrados -->
+									{% for genero in generos_disponiveis %}
+									<li class="dropdown-submenu px-2">
+										<div class="d-flex justify-content-between align-items-center">
+											<a class="flex-grow-1" href="{% url 'visualizar_genero' genero.id %}">{{genero.nome }}</a>
+											{% if request.user.administrador.cargo == 'moderador' %}
+											<div class="ml-3 d-flex gap-4">
+												<a href="{% url 'atualizar_genero' genero.id %}" title="Editar"
+													class="text-primary" style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem;">
+													<i class="icon ion-ios-create"></i>
+												</a>
+												<a href="{% url 'remover_genero' genero.id %}" title="Deletar"
+													class="text-danger" style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem; color:red;">
+													<i class="icon ion-ios-trash"></i>
+												</a>
+											</div>
+											{% endif %}
+										</div>
+									</li>
+
+									{% empty %}
+									<li><a href="#">Nenhum gênero cadastrado</a></li>
+									{% endfor %}
+
+									<!-- Separador visual -->
+									<li class="dropdown-divider"></li>
+
+									<!-- Ações CRUD gerais -->
+									<li><a href="{% url 'criar_genero' %}">+ Criar Gênero</a></li>
 								</ul>
+
 							</li>
 							<!-- end dropdown -->
 
@@ -59,15 +87,17 @@
 									aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 
 								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-									<li><a class="dropdown-item" href="{% url 'central_ajuda' %}">Central de ajuda</a></li>
-									
+									<li><a class="dropdown-item" href="{% url 'central_ajuda' %}">Central de ajuda</a>
+									</li>
+
 									{% if request.user.administrador %}
 									<li><a class="dropdown-item"
 											href="{% url 'perfil_administrador' pk=request.user.administrador.id %}">Perfil</a>
 									</li>
 
 									{% if request.user.administrador.cargo == 'gerente' %}
-									<li><a class="dropdown-item" href="{% url 'listar_assinantes' %}">Lista de Assinantes</a>
+									<li><a class="dropdown-item" href="{% url 'listar_assinantes' %}">Lista de
+											Assinantes</a>
 									</li>
 									<li><a class="dropdown-item" href="{% url 'listar_administradores' %}">Lista de
 											Administradores</a></li>
@@ -82,7 +112,8 @@
 											href="{% url 'perfil_assinante' pk=request.user.assinante.id %}">Conta</a>
 									</li>
 									{% endif %}
-									<li><a class="dropdown-item" href="{% url 'logout_view' %}">Sair da Streamberry</a></li>
+									<li><a class="dropdown-item" href="{% url 'logout_view' %}">Sair da Streamberry</a>
+									</li>
 								</ul>
 
 						</ul>
@@ -115,17 +146,17 @@
 
 	<!-- header search -->
 	<form action="{% url 'search' %}" method="get" class="header__search">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="header__search-content">
-					<input type="text" name="q" placeholder="Buscar título...">
-					<button type="submit"><i class="icon ion-ios-search"></i></button>
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="header__search-content">
+						<input type="text" name="q" placeholder="Buscar título...">
+						<button type="submit"><i class="icon ion-ios-search"></i></button>
+					</div>
 				</div>
-			</div> 
+			</div>
 		</div>
-	</div>
-</form>
+	</form>
 
 	<!-- end header search -->
 </header>
