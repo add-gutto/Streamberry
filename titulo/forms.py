@@ -4,21 +4,18 @@ from .models import Filme
 class FilmeForm(forms.ModelForm):
     class Meta:
         model = Filme
-        fields = [
-            'nome',
-            'ano_lancamento',
-            'sinopse',
-            'duracao_minutos',
-        ]
+        fields = '__all__'
         labels = {
-            'nome': 'Nome do Filme',
+            'titulo': 'Nome do Filme',
             'ano_lancamento': 'Ano de Lançamento',
             'sinopse': 'Sinopse',
-            'duracao_minutos': 'Duração (em minutos)',
+            'duracao_minutos': 'Duração (em minutos)'
         }
-        widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: O Poderoso Chefão'}),
-            'ano_lancamento': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ex: 1972'}),
-            'sinopse': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Descreva o filme...'}),
-            'duracao_minutos': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ex: 175'}),
-        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'sign__input',
+                'style': 'width: 100%; background-color: #3f3e3e; color: white; border: none; padding: 10px; margin-bottom: 15px;'
+            })

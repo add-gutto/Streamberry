@@ -40,12 +40,12 @@
 
 							<!-- dropdown -->
 							<li class="header__nav-item">
-								<a href="{% url 'search' %}" class="header__nav-link">Séries</a>
+								<a href="#" class="header__nav-link">Séries</a>
 							</li>
 							<!-- end dropdown -->
 
 							<li class="header__nav-item">
-								<a href="pricing.html" class="header__nav-link">Filmes</a>
+								<a href="{% url 'listar_filmes' %}" class="header__nav-link">Filmes</a>
 							</li>
 
 							<li class="header__nav-item">
@@ -59,7 +59,7 @@
 									aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 
 								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-									<li><a class="dropdown-item" href="about.html">Central de ajuda</a></li>
+									<li><a class="dropdown-item" href="{% url 'central_ajuda' %}">Central de ajuda</a></li>
 									
 									{% if request.user.administrador %}
 									<li><a class="dropdown-item"
@@ -73,7 +73,6 @@
 											Administradores</a></li>
 									<!-- Itens exclusivos para gerente -->
 									{% elif request.user.administrador.cargo == 'moderador' %}
-									<li><a class="dropdown-item" href="#">Criar Títulos</a></li>
 									<li><a class="dropdown-item" href="#">Criar Gêneros</a></li>
 									<!-- Itens exclusivos para moderador -->
 									{% endif %}
@@ -115,18 +114,18 @@
 	</div>
 
 	<!-- header search -->
-	<form action="#" class="header__search">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="header__search-content">
-						<input type="text" placeholder="...">
-
-						<button type="button"><i class="icon ion-ios-search"></i></button>
-					</div>
+	<form action="{% url 'search' %}" method="get" class="header__search">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="header__search-content">
+					<input type="text" name="q" placeholder="Buscar título...">
+					<button type="submit"><i class="icon ion-ios-search"></i></button>
 				</div>
-			</div>
+			</div> 
 		</div>
-	</form>
+	</div>
+</form>
+
 	<!-- end header search -->
 </header>

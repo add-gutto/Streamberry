@@ -14,18 +14,6 @@ from django.http import JsonResponse
 def home(request):
     return render (request, "index.html")
 
-def titulos(request):
-    return render (request, "Titulo/titulos.html")
-
-def detail_titulo_filme(request):
-    return render (request, "Titulo/detail_filme.html")
-
-def detail_titulo_serie(request):
-    return render (request, "Titulo/detail_serie.html")
-
-def search(request):
-    return render (request, "Titulo/search.html")
-
 def login_view(request):
     form = CustomAuthenticationForm(request, data=request.POST or None)
 
@@ -207,7 +195,7 @@ def criar_administrador(request):
         'admin_form': admin_form,
         'cancelar_url': request.META.get('HTTP_REFERER'),
          'conta_title' : 'CRIAR ADMIN',
-         'form_btn' : 'CRIAR'
+         'conta_btn' : 'CRIAR'
     })
 
 @login_required

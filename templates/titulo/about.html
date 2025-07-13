@@ -1,0 +1,121 @@
+{% extends '_base.html' %}
+
+{% block title %}Central de Ajuda{% endblock %}
+{% load static %}
+
+{% block content %}
+
+{% include '_header.html' %}
+
+<!-- page title -->
+<section class="section section--first section--bg" data-bg="{% static 'img/section/section.jpg' %}">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<h2 class="section__title">Central de Ajuda</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end page title -->
+
+<!-- about -->
+<section class="section">
+	<div class="container">
+		<div class="row">
+			<!-- section title -->
+			<div class="col-12">
+				<h2 class="section__title"><b>Streamberry</b> – Sua central de suporte</h2>
+			</div>
+
+			<!-- section text -->
+			<div class="col-12">
+				<p class="section__text">Precisa de ajuda? Aqui você encontra as respostas para as perguntas mais frequentes sobre o uso da nossa plataforma de streaming.</p>
+				<p class="section__text section__text--last-with-margin">Caso não encontre o que procura, entre em contato conosco. Estamos aqui para garantir que você aproveite ao máximo sua experiência com o Streamberry.</p>
+			</div>
+
+			<!-- feature -->
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="feature">
+					<i class="icon ion-ios-help-circle feature__icon"></i>
+					<h3 class="feature__title">Dúvidas Frequentes</h3>
+					<p class="feature__text">Encontre rapidamente as respostas para as dúvidas mais comuns sobre cadastro, uso e configurações.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="feature">
+					<i class="icon ion-ios-cog feature__icon"></i>
+					<h3 class="feature__title">Configurações</h3>
+					<p class="feature__text">Saiba como ajustar legendas, idioma e qualidade de reprodução.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="feature">
+					<i class="icon ion-ios-lock feature__icon"></i>
+					<h3 class="feature__title">Privacidade</h3>
+					<p class="feature__text">Entenda como protegemos seus dados e como gerenciar sua conta com segurança.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="feature">
+					<i class="icon ion-ios-card feature__icon"></i>
+					<h3 class="feature__title">Pagamentos</h3>
+					<p class="feature__text">Veja informações sobre métodos de pagamento, faturas e cancelamentos.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="feature">
+					<i class="icon ion-ios-people feature__icon"></i>
+					<h3 class="feature__title">Perfil e Conta</h3>
+					<p class="feature__text">Saiba como alterar sua senha, atualizar dados ou excluir sua conta.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end about -->
+
+<!-- how it works -->
+<section class="section section--dark">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="section__title section__title--no-margin">Como funciona a ajuda?</h2>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="how">
+					<span class="how__number">01</span>
+					<h3 class="how__title">Busque sua dúvida</h3>
+					<p class="how__text">Use a barra de pesquisa para encontrar respostas de forma rápida e prática.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="how">
+					<span class="how__number">02</span>
+					<h3 class="how__title">Leia os artigos</h3>
+					<p class="how__text">Nossos conteúdos explicam passo a passo como resolver problemas ou configurar a plataforma.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="how">
+					<span class="how__number">03</span>
+					<h3 class="how__title">Fale conosco</h3>
+					<p class="how__text">Se não encontrar o que procura, entre em contato por e-mail ou formulário de suporte.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end how it works -->
+
+{% include '_fotter.html' %}
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends '_base.html' %}
+{% block content %}
+{% include '_header.html' %}
+
+<section class="section section--first section--bg" data-bg="img/section/section.jpg">
+	{% load static %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<h2 class="section__title">Filmes</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="filter">
+	{% load static %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="filter__content">
+					<div class="filter__items">
+						<!-- filter item: GENRE -->
+						<div class="filter__item" id="filter__genre">
+							<span class="filter__item-label">Gênero:</span>
+							<div class="filter__item-btn dropdown-toggle" id="filter-genre" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<input type="button" value="Todos">
+								<span></span>
+							</div>
+							<ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
+								aria-labelledby="filter-genre">
+								<li>Ação</li>
+								<li>Comédia</li>
+								<li>Drama</li>
+								<li>Terror</li>
+								<li>Romance</li>
+							</ul>
+						</div>
+						<!-- filter item: YEAR -->
+						<div class="filter__item" id="filter__year">
+							<span class="filter__item-label">Ano:</span>
+							<div class="filter__item-btn dropdown-toggle" id="filter-year" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<input type="button" value="Todos">
+								<span></span>
+							</div>
+							<ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
+								aria-labelledby="filter-year">
+								<li>2025</li>
+								<li>2024</li>
+								<li>2023</li>
+								<li>2022</li>
+							</ul>
+						</div>
+					</div>
+					{% if request.user.administrador.cargo == 'moderador' %}
+					<a href="{% url 'cadastrar_filme' %}">+ Cadastrar novo filme</a>
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- catalog -->
+<div class="catalog">
+	<div class="container">
+		<div class="row">
+			{% for filme in filmes %}
+			<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+				<div class="card ">
+					<div class="card__cover">
+						{% if filme.capa %}
+						<img src="{{ filme.capa.url }}" alt="{{ filme.titulo }}">
+						{% else %}
+						<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+						{% endif %}
+
+						<a href="{% url 'detalhe_titulo_filme' filme.id %}" class="card__play">
+							<i class="icon ion-ios-play"></i>
+						</a>
+					</div>
+					<div class="card__content">
+						<h3 class="card__title"><a href="{% url 'detalhe_titulo_filme' filme.id %}">{{ filme.titulo }}</a></h3>
+					</div>
+				</div>
+			</div>
+			<!-- end card -->
+
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<!-- end catalog -->
+
+{% endblock %}

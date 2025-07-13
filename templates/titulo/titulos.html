@@ -1,0 +1,103 @@
+{% extends '_base.html' %}
+{% block content %}
+
+{% include '_header.html' %}
+
+<section class="home">
+		{% load static %}
+		<!-- home bg -->
+		<div class="owl-carousel home__bg">
+			<div class="item home__cover" data-bg="img/home/home__bg.jpg"></div>
+			<div class="item home__cover" data-bg="img/home/home__bg2.jpg"></div>
+			<div class="item home__cover" data-bg="img/home/home__bg3.jpg"></div>
+			<div class="item home__cover" data-bg="img/home/home__bg4.jpg"></div>
+		</div>
+		<!-- end home bg -->
+
+		<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1 class="home__title"><b>Filmes</b> desta temporada</h1>
+
+			<button class="home__nav home__nav--prev" type="button">
+				<i class="icon ion-ios-arrow-round-back"></i>
+			</button>
+			<button class="home__nav home__nav--next" type="button">
+				<i class="icon ion-ios-arrow-round-forward"></i>
+			</button>
+		</div>
+
+		<div class="col-12">
+			<div class="owl-carousel home__carousel">
+				{% for filme in filmes %}
+				<div class="item">
+					<div class="card card--big">
+						<div class="card__cover">
+							{% if filme.capa %}
+							<img src="{{ filme.capa.url }}" alt="{{ filme.titulo }}">
+							{% else %}
+							<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+							{% endif %}
+							<a href="{% url 'detalhe_titulo_filme' filme.id %}" class="card__play">
+								<i class="icon ion-ios-play"></i>
+							</a>
+						</div>
+						<div class="card__content">
+							<h3 class="card__title"><a href="{% url 'detalhe_titulo_filme' filme.id %}">{{ filme.titulo }}</a></h3>
+							<span class="card__category">
+								<a href="#">{{ filme.genero }}</a>
+							</span>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<!-- CARROSSEL DE SÉRIES -->
+		<div class="col-12 mt-5">
+			<h1 class="home__title"><b>Séries</b> desta temporada</h1>
+
+			<button class="home__nav home__nav--prev" type="button">
+				<i class="icon ion-ios-arrow-round-back"></i>
+			</button>
+			<button class="home__nav home__nav--next" type="button">
+				<i class="icon ion-ios-arrow-round-forward"></i>
+			</button>
+		</div>
+
+		<div class="col-12">
+			<div class="owl-carousel home__carousel">
+				{% for serie in series %}
+				<div class="item">
+					<div class="card card--big">
+						<div class="card__cover">
+							{% if serie.capa %}
+							<img src="{{ serie.capa.url }}" alt="{{ serie.titulo }}">
+							{% else %}
+							<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+							{% endif %}
+							<a href="{% url 'detalhe_titulo_serie' serie.id %}" class="card__play">
+								<i class="icon ion-ios-play"></i>
+							</a>
+						</div>
+						<div class="card__content">
+							<h3 class="card__title"><a href="{% url 'detalhe_titulo_serie' serie.id %}">{{ serie.titulo.titulo }}</a></h3>
+							<span class="card__category">
+								<a href="#">{{ serie.genero }}</a>
+							</span>
+							<span class="card__rate"><i class="icon ion-ios-star"></i>{{ serie.nota|default:"-" }}</span>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	
+
+	{% include '_fotter.html' %}
+{% endblock %}
