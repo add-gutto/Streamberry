@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import  Titulo, Filme , Serie
 from .forms import FilmeForm 
+from favorito.models import Favorito
 
 def home(request):
     return render (request, "index.html")
@@ -13,20 +14,20 @@ def titulos(request):
     series = Serie.objects.all()
     return render (request, "titulo/titulos.html", {'filmes': filmes, 'series': series})
 
+
 def detail_titulo_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
-
-    # Gêneros do filme atual
     generos_do_filme = filme.generos.all()
+    filmes_relacionados = Filme.objects.filter(generos__in=generos_do_filme).exclude(id=filme.id).distinct()
 
-    # Títulos (filmes ou séries) com ao menos um gênero em comum, excluindo o próprio
-    titulos_relacionados = Titulo.objects.filter(
-        generos__in=generos_do_filme
-    ).exclude(id=filme.id).distinct()
+    favoritado = False
+    if request.user.is_authenticated:
+        favoritado = Favorito.objects.filter(usuario=request.user, titulo=filme).exists()
 
     return render(request, "titulo/detail_filme.html", {
         'filme': filme,
-        'sugestoes': titulos_relacionados
+        'sugestoes': filmes_relacionados,
+        'favoritado': favoritado,
     })
 
 

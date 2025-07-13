@@ -13,76 +13,95 @@
 		<div class="row">
 			<!-- title -->
 			<div class="col-12">
-				<div style="display: flex; align-items: center; gap: 15px;">
-  <h1 class="details__title">{{ filme.titulo }}</h1>
+				<div class="row">
+					<div class="col-12 col-xl-6" style="display: flex; align-items: center; gap: 15px;">
+						<h1 class="details__title">{{ filme.titulo }}</h1>
+					</div>
 
-  {% if request.user.administrador.cargo == 'moderador' %}
-  <div class="details__actions" style="margin-top: 0;">
-    <a href="{% url 'editar_filme'  filme.id%}" style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem;">
-      <i class="icon ion-ios-create" style="font-size: 1.6rem;"></i> Editar
-    </a>
-    <form action="{% url 'remover_filme'  filme.id%}" method="post" style="display: inline;">
-      {% csrf_token %}
-      <button type="submit" style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem; color:red;"
-        onclick="return confirm('Tem certeza que deseja excluir este filme?');">
-        <i class="icon ion-ios-trash" style="font-size: 1.6rem;"></i> Excluir
-      </button>
-    </form>
-  </div>
-  {% endif %}
-</div>
+					<div class="details__actions col-12 col-xl-6 d-flex align-items-center" style="margin-top: 0; gap: 20px;">
+						{% if request.user.administrador.cargo == 'moderador' %}
+						<a href="{% url 'editar_filme'  filme.id%}"
+							style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem;">
+							<i class="icon ion-ios-create" style="font-size: 1.6rem;"></i> Editar
+						</a>
+						<form action="{% url 'remover_filme'  filme.id%}" method="post" style="display: inline;">
+							{% csrf_token %}
+							<button type="submit"
+								style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem; color:red;"
+								onclick="return confirm('Tem certeza que deseja excluir este filme?');">
+								<i class="icon ion-ios-trash" style="font-size: 1.6rem;"></i> Excluir
+							</button>
+						</form>
+						{% endif %}
+						{% if favoritado %}
+						<form action="{% url 'remover_favorito' filme.id %}" method="post" style="display: inline;">
+							{% csrf_token %}
+							<button type="submit" class="btn btn-warning" style="margin-left: 10px; font-size: 1.1rem;">
+								<i class="icon ion-ios-heart" style="font-size: 1.9rem; color: red;"></i> 
+							</button>
+						</form>
+						{% else %}
+						<form action="{% url 'adicionar_favorito' filme.id %}" method="post" style="display: inline;">
+							{% csrf_token %}
+							<button type="submit" class="btn btn-light" style="margin-left: 10px; font-size: 1.1rem;">
+								<i class="icon ion-ios-heart-empty" style="font-size: 1.9rem;"></i> 
+							</button>
+						</form>
+						{% endif %}
+					</div>
+
+				</div>
 
 			</div>
 			<!-- end title -->
 
 			<!-- detalhes do filme -->
-<div class="col-12 col-xl-6">
-	<div class="card card--details">
-		<div class="row">
-			<!-- capa do filme -->
-			<div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
-				<div class="card__cover">
-					{% if filme.capa %}
-						<img src="{{ filme.capa.url }}" alt="{{ filme.titulo }}">
-					{% else %}
-						<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
-					{% endif %}
-				</div>
-			</div>
-			<!-- fim da capa -->
+			<div class="col-12 col-xl-6">
+				<div class="card card--details">
+					<div class="row">
+						<!-- capa do filme -->
+						<div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
+							<div class="card__cover">
+								{% if filme.capa %}
+								<img src="{{ filme.capa.url }}" alt="{{ filme.titulo }}">
+								{% else %}
+								<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+								{% endif %}
+							</div>
+						</div>
+						<!-- fim da capa -->
 
-			<!-- conteúdo do filme -->
-			<div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
-				<div class="card__content">
-					<ul class="card__meta">
-						<li><span>Gênero:</span> {{ filme.genero|default:"Não informado" }}</li>
-						<li><span>Ano de lançamento:</span> {{ filme.ano_lancamento }}</li>
-						<li><span>Duração:</span> {{ filme.duracao_minutos }} min</li>
-					</ul>
+						<!-- conteúdo do filme -->
+						<div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
+							<div class="card__content">
+								<ul class="card__meta">
+									<li><span>Gênero:</span> {{ filme.genero|default:"Não informado" }}</li>
+									<li><span>Ano de lançamento:</span> {{ filme.ano_lancamento }}</li>
+									<li><span>Duração:</span> {{ filme.duracao_minutos }} min</li>
+								</ul>
 
-					<div class="card__description card__description--details">
-						{{ filme.sinopse }}
+								<div class="card__description card__description--details">
+									{{ filme.sinopse }}
+								</div>
+							</div>
+						</div>
+						<!-- fim do conteúdo -->
 					</div>
 				</div>
 			</div>
-			<!-- fim do conteúdo -->
-		</div>
-	</div>
-</div>
-<!-- fim do card -->
+			<!-- fim do card -->
 
-<!-- player -->
-<div class="col-12 col-xl-6">
-	<video controls crossorigin playsinline
-		id="video"
-		style="width: 100%; border-radius: 12px;">
-	</video>
-	<noscript>
-		<p>Seu navegador não suporta JavaScript. <a href="{{ filme.video_url }}" download>Clique aqui para baixar o vídeo.</a></p>
-	</noscript>
-</div>
+			<!-- player -->
+			<div class="col-12 col-xl-6">
+				<video controls crossorigin playsinline id="video" style="width: 100%; border-radius: 12px;">
+				</video>
+				<noscript>
+					<p>Seu navegador não suporta JavaScript. <a href="{{ filme.video_url }}" download>Clique aqui para
+							baixar o vídeo.</a></p>
+				</noscript>
+			</div>
 
-<!-- fim player -->
+			<!-- fim player -->
 
 		</div>
 	</div>
@@ -99,29 +118,30 @@
 		<!-- end section title -->
 
 		<!-- card -->
-		 {% for filme in sugestoes %}
+		{% for filme in sugestoes %}
 		<div class="col-6 col-md-4 col-lg-2">
 			<div class="card">
 				<div class="card__cover">
 					{% if filme.capa %}
-						<img src="{{ filme.capa.url }}" alt="{{ filme.titulo }}">
-						{% else %}
-						<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
-						{% endif %}
+					<img src="{{ filme.capa.url }}" alt="{{ filme.titulo }}">
+					{% else %}
+					<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+					{% endif %}
 
 					<a href="#" class="card__play">
 						<i class="icon ion-ios-play"></i>
 					</a>
 				</div>
 				<div class="card__content">
-					<h3 class="card__title"><a href="{% url 'detalhe_titulo_filme' filme.id %}">{{ filme.titulo }}</a></h3>
+					<h3 class="card__title"><a href="{% url 'detalhe_titulo_filme' filme.id %}">{{ filme.titulo }}</a>
+					</h3>
 				</div>
 			</div>
 		</div>
 		{% endfor %}
 
-<!-- end sidebar -->
-</div>
+		<!-- end sidebar -->
+	</div>
 </div>
 </section>
 {% endblock %}
@@ -129,29 +149,28 @@
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-  const video = document.getElementById('video');
-  const hlsUrl = "{{ filme.hls_link|escapejs }}";
+	const video = document.getElementById('video');
+	const hlsUrl = "{{ filme.hls_link|escapejs }}";
 
-  if (hlsUrl) {
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(hlsUrl);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play();
-      });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = hlsUrl;
-      video.addEventListener('loadedmetadata', function () {
-        video.play();
-      });
-    } else {
-      console.error("Seu navegador não suporta HLS.");
-    }
-  } else {
-    console.error("Nenhum link HLS fornecido.");
-  }
+	if (hlsUrl) {
+		if (Hls.isSupported()) {
+			const hls = new Hls();
+			hls.loadSource(hlsUrl);
+			hls.attachMedia(video);
+			hls.on(Hls.Events.MANIFEST_PARSED, function () {
+				video.play();
+			});
+		} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+			video.src = hlsUrl;
+			video.addEventListener('loadedmetadata', function () {
+				video.play();
+			});
+		} else {
+			console.error("Seu navegador não suporta HLS.");
+		}
+	} else {
+		console.error("Nenhum link HLS fornecido.");
+	}
 </script>
 
 {% endblock %}
-
