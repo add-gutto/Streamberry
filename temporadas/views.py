@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Serie, Temporada, Episodio
 from .forms import TemporadaForm, EpisodioForm
 
+def listar_series(request):
+    series = Serie.objects.all()
+    return render(request, 'titulo/search_serie.html', {'series': series})
+
+
 @login_required
 def listar_temporadas(request, serie_id):
     serie = get_object_or_404(Serie, pk=serie_id)
@@ -25,10 +30,16 @@ def cadastrar_temporada(request, serie_id):
             temporada = form.save(commit=False)
             temporada.serie = serie
             temporada.save()
-            return redirect('listar_temporadas', serie_id=serie.id)
+            return redirect('listar_series')
     else:
         form = TemporadaForm()
-    return render(request, 'temporadas/form_temporada.html', {'form': form, 'serie': serie})
+    return render(request, 'temporadas/form.html', {
+        'form': form,
+        'serie': serie,
+        'form_title': 'Cadastrar Temporada',
+        'form_btn': 'Salvar',
+        'cancelar_url': redirect('listar_series'),
+    })
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -38,10 +49,16 @@ def editar_temporada(request, pk):
         form = TemporadaForm(request.POST, instance=temporada)
         if form.is_valid():
             form.save()
-            return redirect('listar_temporadas', serie_id=temporada.serie.id)
+            return redirect('listar_series')
     else:
         form = TemporadaForm(instance=temporada)
-    return render(request, 'temporadas/form_temporada.html', {'form': form, 'serie': temporada.serie})
+    return render(request, 'temporadas/form.html', {
+        'form': form,
+        'serie': temporada.serie,
+        'form_title': 'Editar Temporada',
+        'form_btn': 'Atualizar',
+        'cancelar_url': redirect('listar_series'),
+    })
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -50,7 +67,7 @@ def remover_temporada(request, pk):
     serie_id = temporada.serie.id
     if request.method == 'POST':
         temporada.delete()
-        return redirect('listar_temporadas', serie_id=serie_id)
+        return redirect('listar_series')
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -62,10 +79,16 @@ def cadastrar_episodio(request, temporada_id):
             episodio = form.save(commit=False)
             episodio.temporada = temporada
             episodio.save()
-            return redirect('listar_episodios', temporada_id=temporada.id)
+            return redirect('listar_series')
     else:
         form = EpisodioForm()
-    return render(request, 'temporadas/form_episodio.html', {'form': form, 'temporada': temporada})
+    return render(request, 'temporadas/form.html', {
+        'form': form,
+        'temporada': temporada,
+        'form_title': 'Cadastrar Episódio',
+        'form_btn': 'Salvar',
+        'cancelar_url': redirect('listar_series'),
+    })
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -75,10 +98,16 @@ def editar_episodio(request, pk):
         form = EpisodioForm(request.POST, instance=episodio)
         if form.is_valid():
             form.save()
-            return redirect('listar_episodios', temporada_id=episodio.temporada.id)
+            return redirect('listar_series')
     else:
         form = EpisodioForm(instance=episodio)
-    return render(request, 'temporadas/form_episodio.html', {'form': form, 'temporada': episodio.temporada})
+    return render(request, 'temporadas/form.html', {
+        'form': form,
+        'temporada': episodio.temporada,
+        'form_title': 'Editar Episódio',
+        'form_btn': 'Atualizar',
+        'cancelar_url':redirect('listar_series'),
+    })
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -87,4 +116,4 @@ def remover_episodio(request, pk):
     temporada_id = episodio.temporada.id
     if request.method == 'POST':
         episodio.delete()
-        return redirect('listar_episodios', temporada_id=temporada_id)
+        return redirect('listar_series')

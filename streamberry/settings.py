@@ -32,10 +32,6 @@ ALLOWED_HOSTS = [
     config('DOMAIN_APP'),  # <- Isso se estiver usando o domínio no .env
     
 ]
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-print("Email:", EMAIL_HOST_USER)
-print("Senha:", EMAIL_HOST_PASSWORD)
 
 
 # Application definition

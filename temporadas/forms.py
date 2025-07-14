@@ -8,7 +8,6 @@ class TemporadaForm(forms.ModelForm):
         labels = {
             'serie': 'Série',
             'numero': 'Número da Temporada',
-            'descricao': 'Descrição',
         }
 
     def __init__(self, *args, **kwargs):
@@ -31,7 +30,6 @@ class EpisodioForm(forms.ModelForm):
             'duracao_minutos': 'Duração (em minutos)',
             'video_url': 'Link do vídeo',
             'hls_link': 'Link HLS (m3u8)',
-            'sinopse': 'Sinopse',
         }
 
     def __init__(self, *args, **kwargs):

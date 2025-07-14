@@ -25,6 +25,7 @@ urlpatterns = [
     path("titulo/", include("titulo.urls")),
     path("favoritos/", include("favorito.urls")),
     path("genero/", include("genero.urls")),
+    path("temporadas/", include("temporadas.urls", namespace="temporadas")),
     path("", views.home, name= "home"),
 ]
 
