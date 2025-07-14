@@ -16,3 +16,4 @@ class Filme(Titulo):
 class Serie(Titulo):
     numero_temporadas = models.PositiveIntegerField()
 
+
