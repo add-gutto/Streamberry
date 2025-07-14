@@ -7,6 +7,9 @@ class Titulo(models.Model):
     sinopse = models.TextField()
     generos = models.ManyToManyField(Genero)
 
+    def __str__(self):
+        return self.titulo
+
 class Filme(Titulo):
     duracao_minutos = models.PositiveIntegerField()
     video_url = models.URLField("Link do vídeo", max_length=500, blank=True, null=True)
@@ -14,6 +17,6 @@ class Filme(Titulo):
     hls_link = models.URLField("Link HLS (m3u8)", max_length=500, blank=True, null=True)
 
 class Serie(Titulo):
-    numero_temporadas = models.PositiveIntegerField()
+    hls_link_trailler = models.URLField("Link HLS (m3u8)", max_length=500, blank=True, null=True)
 
 

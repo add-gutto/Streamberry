@@ -14,7 +14,10 @@ def cadastrar_genero(request):
             return redirect('visualizar_genero', pk=genero.pk)
     else:
         form = GeneroForm()
-    return render(request, 'genero/form.html', {'form': form})
+    return render(request, 'genero/form.html', {'form': form, 
+        'cancelar_url': request.META.get('HTTP_REFERER'),
+        'form_title' : 'Cadastrar Genero',
+        'form_btn' : 'Salvar'})
 
 @login_required
 @permission_required('usuario.gerenciar_genero', raise_exception=True)
@@ -22,11 +25,7 @@ def remover_genero(request, pk):
     genero = get_object_or_404(Genero, pk=pk)
     if request.method == 'POST':
         genero.delete()
-        return redirect('pagina_stream')  # Redireciona usando o nome da view
-    return render(request, 'genero/confirm_delete.html', {
-        'genero': genero,
-        'cancelar_url': request.META.get('HTTP_REFERER')  # Volta para a página anterior
-    })
+        return redirect(request.META.get('HTTP_REFERER'))  
 
 @login_required
 @permission_required('usuario.gerenciar_genero', raise_exception=True)
@@ -39,7 +38,9 @@ def atualizar_genero(request, pk):
             return redirect('visualizar_genero', pk=genero.pk)
     else:
         form = GeneroForm(instance=genero)
-    return render(request, 'genero/form.html', {'form': form})
+    return render(request, 'genero/form.html', {'form': form, 'cancelar_url': request.META.get('HTTP_REFERER'),
+        'form_title' : 'Editar Genero',
+        'form_btn' : 'Salvar' })
 
 
 def buscar_por_genero(request, pk):

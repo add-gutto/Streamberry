@@ -14,6 +14,9 @@ from django.http import JsonResponse
 def home(request):
     return render (request, "index.html")
 
+def central_ajuda(request):
+    return render(request, "titulo/about.html")
+
 def login_view(request):
     form = CustomAuthenticationForm(request, data=request.POST or None)
 
@@ -229,6 +232,9 @@ def editar_administrador(request, pk):
     else:
         usuario_form = UsuarioChangeForm(instance=usuario)
         admin_form = AdministradorForm(instance=admin)
+
+    if request.user.administrador.cargo == 'moderador':
+        admin_form.fields.pop('cargo')
 
     return render(request, "usuario/admin/conta.html", {
         'usuario_form': usuario_form,

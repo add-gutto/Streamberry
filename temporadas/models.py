@@ -5,6 +5,10 @@ from titulo.models import Serie
 class Temporada(models.Model):
     serie = models.ForeignKey(Serie, on_delete=models.CASCADE, related_name='temporadas')
     numero = models.PositiveIntegerField() 
+
+    def __str__(self):
+        return f"Temporada {self.numero}"
+
     
 class Episodio(models.Model):
     temporada = models.ForeignKey(Temporada, on_delete=models.CASCADE, related_name='episodios')

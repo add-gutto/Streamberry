@@ -25,8 +25,9 @@ urlpatterns = [
     path("titulo/", include("titulo.urls")),
     path("favoritos/", include("favorito.urls")),
     path("genero/", include("genero.urls")),
-    path("temporadas/", include("temporadas.urls", namespace="temporadas")),
+    path("temporada/", include("temporadas.urls")),
     path("", views.home, name= "home"),
+    path("about/", views.central_ajuda, name="central_ajuda"),
 ]
 
 handler404 = 'titulo.views.erro_404'

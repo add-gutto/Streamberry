@@ -27,7 +27,7 @@
 			</button>
 		</div>
 
-		<div class="col-12">
+		<div class="col-12" style="margin: 30px 0px;">
 			<div class="owl-carousel home__carousel">
 				{% for filme in filmes %}
 				<div class="item">
@@ -82,11 +82,10 @@
 							</a>
 						</div>
 						<div class="card__content">
-							<h3 class="card__title"><a href="{% url 'detalhe_titulo_serie' serie.id %}">{{ serie.titulo.titulo }}</a></h3>
+							<h3 class="card__title"><a href="{% url 'detalhe_titulo_serie' serie.id %}">{{ serie.titulo }}</a></h3>
 							<span class="card__category">
 								<a href="#">{{ serie.genero }}</a>
 							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>{{ serie.nota|default:"-" }}</span>
 						</div>
 					</div>
 				</div>
@@ -95,6 +94,7 @@
 		</div>
 	</div>
 </div>
+</section>
 
 
 	

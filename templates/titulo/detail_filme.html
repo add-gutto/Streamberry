@@ -75,7 +75,14 @@
 						<div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
 							<div class="card__content">
 								<ul class="card__meta">
-									<li><span>Gênero:</span> {{ filme.genero|default:"Não informado" }}</li>
+									<li>
+                                        <span>Gêneros:</span>
+                                        {% for genero in filme.generos.all %}
+                                        {{ genero.nome }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        Não informado
+                                        {% endfor %}
+                                    </li>
 									<li><span>Ano de lançamento:</span> {{ filme.ano_lancamento }}</li>
 									<li><span>Duração:</span> {{ filme.duracao_minutos }} min</li>
 								</ul>

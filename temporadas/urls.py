@@ -5,12 +5,12 @@ app_name = 'temporadas'
 
 urlpatterns = [
     # Temporadas
-    path('serie/<int:serie_id>/temporadas/cadastrar/', views.cadastrar_temporada, name='cadastrar_temporada'),
-    path('temporada/<int:pk>/editar/', views.editar_temporada, name='editar_temporada'),
-    path('temporada/<int:pk>/remover/', views.remover_temporada, name='remover_temporada'),
+    path('cadastrar/serie/<int:serie_id>/', views.cadastrar_temporada, name='cadastrar_temporada'),
+    path('editar/<int:pk>/', views.editar_temporada, name='editar_temporada'),
+    path('del/<int:pk>/', views.remover_temporada, name='remover_temporada'),
 
     # Episódios
-    path('temporada/<int:temporada_id>/episodios/cadastrar/', views.cadastrar_episodio, name='cadastrar_episodio'),
-    path('episodio/<int:pk>/editar/', views.editar_episodio, name='editar_episodio'),
-    path('episodio/<int:pk>/remover/', views.remover_episodio, name='remover_episodio'),
+    path('cadastrar/episodio/<int:temporada_id>/', views.cadastrar_episodio, name='cadastrar_episodio'),
+    path('editar/episodio/<int:pk>/', views.editar_episodio, name='editar_episodio'),
+    path('del/episodio/<int:pk>/', views.remover_episodio, name='remover_episodio'),
 ]

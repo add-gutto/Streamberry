@@ -6,17 +6,11 @@ from .models import  Titulo, Filme , Serie
 from .forms import FilmeForm, SerieForm 
 from favorito.models import Favorito
 
-def home(request):
-    return render (request, "index.html")
-
-def central_ajuda(request):
-    return render(request, "titulo/about.html")
 
 def titulos(request):
     filmes = Filme.objects.all()
     series = Serie.objects.all()
     return render (request, "titulo/titulos.html", {'filmes': filmes, 'series': series})
-
 
 def detail_titulo_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
@@ -33,54 +27,22 @@ def detail_titulo_filme(request, pk):
         'favoritado': favoritado,
     })
 
-
 def detail_titulo_serie(request, pk):
     serie = get_object_or_404(Serie, pk=pk)
+    generos_da_serie = serie.generos.all()
+    series_relacionadas = Serie.objects.filter(generos__in=generos_da_serie).exclude(id=serie.id).distinct()
     temporadas = Temporada.objects.filter(serie=serie).order_by('numero').prefetch_related('episodios')
-    
-    pode_gerenciar = request.user.has_perm('usuario.gerenciar_titulos')
     favoritado = False
     if request.user.is_authenticated:
         favoritado = Favorito.objects.filter(usuario=request.user, titulo=serie).exists()
-    return render(request, "titulo/detail_serie.html", {
+    
+    return render(request, "titulo/detail_series.html", {
         'serie': serie,
         'favoritado': favoritado,
         'temporadas': temporadas,
-        'pode_gerenciar': pode_gerenciar,
+        'sugestoes': series_relacionadas
     })
 
-def search(request):
-    query = request.GET.get("q", "")
-    titulos_com_tipo = []
-
-    if query:
-        titulos = Titulo.objects.filter(titulo__icontains=query)
-
-        for titulo in titulos:
-            if hasattr(titulo, 'filme'):
-                tipo = 'filme'
-            elif hasattr(titulo, 'serie'):
-                tipo = 'serie'
-            else:
-                tipo = 'desconhecido'
-
-            titulos_com_tipo.append({
-                'titulo': titulo,
-                'tipo': tipo
-            })
-
-    return render(request, "titulo/search.html", {
-        "titulos": titulos_com_tipo,
-        "query": query
-    })
-
-def listar_filmes(request):
-    filmes = Filme.objects.all()
-    return render(request, 'titulo/search_filme.html', {'filmes': filmes})
-
-def listar_series(request):
-    series = Serie.objects.all()
-    return render(request, 'titulo/search_serie.html', {'series': series})
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -176,6 +138,40 @@ def remover_serie(request, pk):
     if request.method == 'POST':
         serie.delete()
         return redirect('listar_series')
+    
+
+def search(request):
+    query = request.GET.get("q", "")
+    titulos_com_tipo = []
+
+    if query:
+        titulos = Titulo.objects.filter(titulo__icontains=query)
+
+        for titulo in titulos:
+            if hasattr(titulo, 'filme'):
+                tipo = 'filme'
+            elif hasattr(titulo, 'serie'):
+                tipo = 'serie'
+            else:
+                tipo = 'desconhecido'
+
+            titulos_com_tipo.append({
+                'titulo': titulo,
+                'tipo': tipo
+            })
+
+    return render(request, "titulo/search.html", {
+        "titulos": titulos_com_tipo,
+        "query": query
+    })
+
+def listar_filmes(request):
+    filmes = Filme.objects.all()
+    return render(request, 'titulo/search_filme.html', {'filmes': filmes})
+
+def listar_series(request):
+    series = Serie.objects.all()
+    return render(request, 'titulo/search_serie.html', {'series': series})
     
 def erro_404(request, exception):
     return render(request, '404.html', status=404)

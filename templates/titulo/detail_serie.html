@@ -88,34 +88,40 @@
 <div class="col-12 mt-5">
 	<h2 class="section__title">Temporadas e Episódios</h2>
 
-	{% if pode_gerenciar %}
-  		<a href="{% url 'temporadas:cadastrar_temporada' serie.id %}" class="btn btn-primary">
-    	Cadastrar Temporada
- 		</a>
+	{% if request.user.administrador.cargo == 'moderador' %}
+		<a href="{% url 'temporadas:cadastrar_temporada' serie.id %}" class="btn btn-primary">
+			Cadastrar Temporada
+		</a>
 	{% endif %}
 
 	{% for temporada in temporadas %}
 		<div class="card mb-3">
-			<div class="card-header d-flex justify-content-between align-items-center ">
-				<h5 class="mb-0 r">Temporada {{ temporada.numero }}</h5>
-				{% if pode_gerenciar %}
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<h5 class="mb-0">Temporada {{ temporada.numero }}</h5>
+
+				{% if request.user.administrador.cargo == 'moderador' %}
 					<div>
 						<a href="{% url 'temporadas:editar_temporada' temporada.id %}" class="btn btn-sm btn-primary">Editar</a>
+
 						<form action="{% url 'temporadas:remover_temporada' temporada.id %}" method="post" style="display: inline;">
 							{% csrf_token %}
 							<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Remover temporada?')">Excluir</button>
 						</form>
+
 						<a href="{% url 'temporadas:cadastrar_episodio' temporada.id %}" class="btn btn-sm btn-success">+ Episódio</a>
 					</div>
 				{% endif %}
 			</div>
-			<ul class="list-group list-group-flush ">
+
+			<ul class="list-group list-group-flush">
 				{% for episodio in temporada.episodios.all %}
-					<li class="list-group-item d-flex justify-content-between align-items-center ">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
 						Episódio {{ episodio.numero }}: {{ episodio.titulo }}
+
 						{% if pode_gerenciar %}
 							<div>
 								<a href="{% url 'temporadas:editar_episodio' episodio.id %}" class="btn btn-sm btn-primary">Editar</a>
+
 								<form action="{% url 'temporadas:remover_episodio' episodio.id %}" method="post" style="display: inline;">
 									{% csrf_token %}
 									<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Remover episódio?')">Excluir</button>
@@ -132,6 +138,7 @@
 		<p class="text-muted">Nenhuma temporada cadastrada.</p>
 	{% endfor %}
 </div>
+
 
 			
 		</div>

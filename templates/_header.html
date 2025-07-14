@@ -36,17 +36,25 @@
 									{% for genero in generos_disponiveis %}
 									<li class="dropdown-submenu px-2">
 										<div class="d-flex justify-content-between align-items-center">
-											<a class="flex-grow-1" href="{% url 'visualizar_genero' genero.id %}">{{genero.nome }}</a>
+											<a class="flex-grow-1"
+												href="{% url 'visualizar_genero' genero.id %}">{{genero.nome }}</a>
 											{% if request.user.administrador.cargo == 'moderador' %}
-											<div class="ml-3 d-flex gap-4">
+											<div class="ml-3 d-flex align-items-center " style="margin: 10px; gap: 10px;">
 												<a href="{% url 'atualizar_genero' genero.id %}" title="Editar"
-													class="text-primary" style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem;">
+													class="text-primary"
+													style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem;">
 													<i class="icon ion-ios-create"></i>
 												</a>
-												<a href="{% url 'remover_genero' genero.id %}" title="Deletar"
-													class="text-danger" style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem; color:red;">
-													<i class="icon ion-ios-trash"></i>
-												</a>
+												<form action="{% url 'remover_genero' genero.id %}"
+													method="post" style="display:inline;">
+													{% csrf_token %}
+													<button type="submit" class="btn btn-outline-danger"
+														title="Excluir Gênero"
+														onclick="return confirm('Remover Gênero?')">
+														<i class="icon ion-ios-trash"
+														style="font-size: 1.2rem; color: red;"></i>
+													</button>
+												</form>
 											</div>
 											{% endif %}
 										</div>
@@ -60,7 +68,9 @@
 									<li class="dropdown-divider"></li>
 
 									<!-- Ações CRUD gerais -->
+									 {% if request.user.administrador.cargo == 'moderador' %}
 									<li><a href="{% url 'criar_genero' %}">+ Criar Gênero</a></li>
+									{% endif %}
 								</ul>
 
 							</li>
@@ -101,12 +111,7 @@
 									</li>
 									<li><a class="dropdown-item" href="{% url 'listar_administradores' %}">Lista de
 											Administradores</a></li>
-									<!-- Itens exclusivos para gerente -->
-									{% elif request.user.administrador.cargo == 'moderador' %}
-									<li><a class="dropdown-item" href="#">Criar Gêneros</a></li>
-									<!-- Itens exclusivos para moderador -->
 									{% endif %}
-
 									{% else %}
 									<li><a class="dropdown-item"
 											href="{% url 'perfil_assinante' pk=request.user.assinante.id %}">Conta</a>

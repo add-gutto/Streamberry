@@ -4,9 +4,8 @@ from .models import Temporada, Episodio
 class TemporadaForm(forms.ModelForm):
     class Meta:
         model = Temporada
-        fields = '__all__'
+        fields = ['numero']  # só o campo número aparece no form
         labels = {
-            'serie': 'Série',
             'numero': 'Número da Temporada',
         }
 
@@ -17,6 +16,7 @@ class TemporadaForm(forms.ModelForm):
                 'class': 'sign__input',
                 'style': 'width: 100%; background-color: #3f3e3e; color: white; border: none; padding: 10px; margin-bottom: 15px;'
             })
+
 
 
 class EpisodioForm(forms.ModelForm):

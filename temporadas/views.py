@@ -3,42 +3,27 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Serie, Temporada, Episodio
 from .forms import TemporadaForm, EpisodioForm
 
-def listar_series(request):
-    series = Serie.objects.all()
-    return render(request, 'titulo/search_serie.html', {'series': series})
-
-
-@login_required
-def listar_temporadas(request, serie_id):
-    serie = get_object_or_404(Serie, pk=serie_id)
-    temporadas = Temporada.objects.filter(serie=serie).order_by('numero')
-    return render(request, 'temporadas/listar_temporadas.html', {'serie': serie, 'temporadas': temporadas})
-
-@login_required
-def listar_episodios(request, temporada_id):
-    temporada = get_object_or_404(Temporada, pk=temporada_id)
-    episodios = Episodio.objects.filter(temporada=temporada).order_by('numero')
-    return render(request, 'temporadas/listar_episodios.html', {'temporada': temporada, 'episodios': episodios})
-
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def cadastrar_temporada(request, serie_id):
     serie = get_object_or_404(Serie, pk=serie_id)
+    
     if request.method == 'POST':
         form = TemporadaForm(request.POST)
         if form.is_valid():
             temporada = form.save(commit=False)
             temporada.serie = serie
             temporada.save()
-            return redirect('listar_series')
+            return redirect('detalhe_titulo_serie', temporada.serie.id)
     else:
         form = TemporadaForm()
+    
     return render(request, 'temporadas/form.html', {
         'form': form,
         'serie': serie,
         'form_title': 'Cadastrar Temporada',
         'form_btn': 'Salvar',
-        'cancelar_url': redirect('listar_series'),
+        'cancelar_url': request.META.get('HTTP_REFERER')
     })
 
 @login_required
@@ -49,7 +34,7 @@ def editar_temporada(request, pk):
         form = TemporadaForm(request.POST, instance=temporada)
         if form.is_valid():
             form.save()
-            return redirect('listar_series')
+            return redirect('detalhe_titulo_serie', temporada.serie.id)
     else:
         form = TemporadaForm(instance=temporada)
     return render(request, 'temporadas/form.html', {
@@ -57,57 +42,69 @@ def editar_temporada(request, pk):
         'serie': temporada.serie,
         'form_title': 'Editar Temporada',
         'form_btn': 'Atualizar',
-        'cancelar_url': redirect('listar_series'),
+        'cancelar_url': request.META.get('HTTP_REFERER'),
     })
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def remover_temporada(request, pk):
     temporada = get_object_or_404(Temporada, pk=pk)
-    serie_id = temporada.serie.id
     if request.method == 'POST':
         temporada.delete()
-        return redirect('listar_series')
+        return redirect('detalhe_titulo_serie', temporada.serie.id)
 
-@login_required
-@permission_required('usuario.gerenciar_titulos', raise_exception=True)
+
 def cadastrar_episodio(request, temporada_id):
     temporada = get_object_or_404(Temporada, pk=temporada_id)
+    serie = temporada.serie
+    temporadas_da_serie = serie.temporadas.all()
+
     if request.method == 'POST':
         form = EpisodioForm(request.POST)
         if form.is_valid():
             episodio = form.save(commit=False)
-            episodio.temporada = temporada
             episodio.save()
-            return redirect('listar_series')
+            return redirect('detalhe_titulo_serie', pk=serie.id)
     else:
         form = EpisodioForm()
+        # aqui você pode filtrar o queryset do campo temporada
+        form.fields['temporada'].queryset = temporadas_da_serie
+
     return render(request, 'temporadas/form.html', {
         'form': form,
+        'serie': serie,
         'temporada': temporada,
         'form_title': 'Cadastrar Episódio',
         'form_btn': 'Salvar',
-        'cancelar_url': redirect('listar_series'),
+        'cancelar_url': request.META.get('HTTP_REFERER'),
     })
+
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def editar_episodio(request, pk):
     episodio = get_object_or_404(Episodio, pk=pk)
+    serie = episodio.temporada.serie
+    temporadas_da_serie = serie.temporadas.all()
+
     if request.method == 'POST':
         form = EpisodioForm(request.POST, instance=episodio)
         if form.is_valid():
             form.save()
-            return redirect('listar_series')
+            return redirect('detalhe_titulo_serie', episodio.temporada.serie.id)
     else:
         form = EpisodioForm(instance=episodio)
+        # filtra as temporadas disponíveis no campo
+        form.fields['temporada'].queryset = temporadas_da_serie
+
     return render(request, 'temporadas/form.html', {
         'form': form,
         'temporada': episodio.temporada,
         'form_title': 'Editar Episódio',
         'form_btn': 'Atualizar',
-        'cancelar_url':redirect('listar_series'),
+        'cancelar_url': request.META.get('HTTP_REFERER'),
     })
+
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -116,4 +113,4 @@ def remover_episodio(request, pk):
     temporada_id = episodio.temporada.id
     if request.method == 'POST':
         episodio.delete()
-        return redirect('listar_series')
+        return redirect('detalhe_titulo_serie', episodio.temporada.serie.id)

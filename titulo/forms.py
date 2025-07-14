@@ -46,7 +46,6 @@ class SerieForm(forms.ModelForm):
             'titulo': 'Nome da Série',
             'ano_lancamento': 'Ano de Lançamento',
             'sinopse': 'Sinopse',
-            'numero_temporadas': 'Número de Temporadas',
             'generos': 'Gêneros',
         }
 

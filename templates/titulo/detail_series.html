@@ -1,0 +1,295 @@
+{% extends '_base.html' %}
+{% block content %}
+
+{% include '_header.html' %}
+
+<!-- details -->
+<section class="section details">
+    {% load static %}
+    <!-- details background -->
+    <!-- end details background -->
+
+    <!-- details content -->
+    <div class="container">
+        <div class="row">
+            <!-- title -->
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-xl-6" style="display: flex; align-items: center; gap: 15px;">
+                        <h1 class="details__title">{{ serie.titulo }}</h1>
+                    </div>
+
+                    <div class="details__actions col-12 col-xl-6 d-flex align-items-center"
+                        style="margin-top: 0; gap: 20px;">
+                        {% if request.user.administrador.cargo == 'moderador' %}
+                        <a href="{% url 'editar_serie' serie.id %}"
+                            style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem;">
+                            <i class="icon ion-ios-create" style="font-size: 1.6rem;"></i> Editar
+                        </a>
+                        <form action="{% url 'remover_serie' serie.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit"
+                                style="display: flex; align-items: center; gap: 6px; font-size: 1.2rem; color:red;"
+                                onclick="return confirm('Tem certeza que deseja excluir este filme?');">
+                                <i class="icon ion-ios-trash" style="font-size: 1.6rem;"></i> Excluir
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% if favoritado %}
+                        <form action="{% url 'remover_favorito' serie.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning" style="margin-left: 10px; font-size: 1.1rem;">
+                                <i class="icon ion-ios-heart" style="font-size: 1.9rem; color: red;"></i>
+                            </button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'adicionar_favorito' serie.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-light" style="margin-left: 10px; font-size: 1.1rem;">
+                                <i class="icon ion-ios-heart-empty" style="font-size: 1.9rem;"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            <!-- end title -->
+
+            <!-- content -->
+            <div class="col-10">
+                <div class="card card--details card--series">
+                    <div class="row">
+                        <!-- card cover -->
+                        <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                            <div class="card__cover">
+                                {% if filme.capa %}
+                                <img src="{{ serie.capa.url }}" alt="{{ serie.titulo }}">
+                                {% else %}
+                                <img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- end card cover -->
+
+                        <!-- card content -->
+                        <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
+                            <div class="card__content">
+                                <ul class="card__meta">
+                                    <li>
+                                        <span>Gêneros:</span>
+                                        {% for genero in serie.generos.all %}
+                                        {{ genero.nome }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        Não informado
+                                        {% endfor %}
+                                    </li>
+
+                                    <li><span>Ano de lançamento:</span> {{ serie.ano_lancamento }}</li>
+                                </ul>
+
+                                <div class="card__description card__description--details">
+                                    {{ serie.sinopse }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card content -->
+                    </div>
+                </div>
+            </div>
+            <!-- end content -->
+
+            <!-- player -->
+            <!-- player -->
+            <div class="col-12 col-xl-6">
+                <video controls crossorigin playsinline id="video" style="width: 100%; border-radius: 12px;">
+                </video>
+                <noscript>
+                    <p>Seu navegador não suporta JavaScript. <a href="{{ serie.video_url }}" download>Clique aqui
+                            para
+                            baixar o vídeo.</a></p>
+                </noscript>
+            </div>
+            <!-- end player -->
+
+
+            <div class="col-12 col-xl-6">
+                {% if request.user.administrador.cargo == 'moderador' %}
+                <a href="{% url 'temporadas:cadastrar_temporada' serie.id %}" class="btn btn-primary">
+                    + Temporada
+                </a>
+                {% endif %}
+                <div class="accordion" id="accordion">
+                    {% for temporada in temporadas %}
+                    <div class="accordion__card mb-3">
+                        <div class="d-flex justify-content-between align-items-center px-3 py-2"
+                            id="heading{{ forloop.counter }}">
+                            <!-- Botão toggle do accordion (expansão) -->
+                            <!-- Botão toggle do accordion (expansão) -->
+                            <div class="flex-grow-1 card-header">
+                                <button
+                                    class="btn btn-link w-100 text-left px-0 {% if not forloop.first %}collapsed{% endif %}"
+                                    type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}"
+                                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                                    aria-controls="collapse{{ forloop.counter }}">
+
+                                    <div>
+                                        <span class="fs-5 fw-bold d-block" style="font-size: 20px;">{{temporada}}</span>
+                                    </div>
+                                </button>
+                            </div>
+
+
+                            <!-- Botões de ação (moderador) -->
+                            {% if request.user.administrador.cargo == 'moderador' %}
+                            <div class="btn-group btn-group-sm ml-3" style="margin: 20px;">
+                                <a href="{% url 'temporadas:editar_temporada' temporada.id %}"
+                                    class="btn btn-outline-primary" title="Editar Temporada">
+                                    <i class="icon ion-ios-create" style="font-size: 1.5rem;"></i>
+                                </a>
+                                <a href="{% url 'temporadas:cadastrar_episodio' temporada.id %}"
+                                    class="btn btn-outline-success" title="Adicionar Episódio">
+                                    <i class="icon ion-ios-add-circle" style="font-size: 1.5rem;"></i>
+                                </a>
+                                <form action="{% url 'temporadas:remover_temporada' temporada.id %}" method="post"
+                                    style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger" title="Excluir Temporada"
+                                        onclick="return confirm('Remover temporada?')">
+                                        <i class="icon ion-ios-trash" style="font-size: 1.5rem; color: red;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}"
+                            aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordion">
+                            <div class="card-body">
+                                {% if temporada.episodios %}
+                                <table class="accordion__list table table-bordered table-striped">
+                                    <tbody>
+                                        {% for episodio in temporada.episodios.all %}
+                                        <tr>
+                                            <td>{{ episodio.numero }}</td>
+                                            <td>
+                                                <a href="#" onclick="trocarVideo('{{ episodio.hls_link|escapejs }}')">
+                                                    {{ episodio.titulo }}
+                                                </a>
+                                            </td>
+
+                                            <td>{{ episodio.duracao_minutos }} min</td>
+
+                                            {% if request.user.administrador.cargo == 'moderador' %}
+                                            <td class="text-right">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{% url 'temporadas:editar_episodio' episodio.id %}"
+                                                        class="btn btn-outline-primary" title="Editar Episódio">
+                                                        <i class="icon ion-ios-create" style="font-size: 1.2rem;"></i>
+                                                    </a>
+                                                    <form action="{% url 'temporadas:remover_episodio' episodio.id %}"
+                                                        method="post" style="display:inline;">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            title="Excluir Episódio"
+                                                            onclick="return confirm('Remover episódio?')">
+                                                            <i class="icon ion-ios-trash"
+                                                                style="font-size: 1.2rem; color: red;"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+
+                                </table>
+                                {% else %}
+                                <p class="text-muted" style="color: white;">Nenhum episódio cadastrado.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted" style="color: white;">Nenhuma temporada cadastrada.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- end details content -->
+</section>
+
+
+<!-- sidebar -->
+<div class="col-12 ">
+    <div class="row">
+        <!-- section title -->
+        <div class="col-12">
+            <h2 class="section__title section__title--sidebar">You may also like...</h2>
+        </div>
+        <!-- end section title -->
+
+        <!-- card -->
+        {% for serie in sugestoes %}
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card">
+                <div class="card__cover">
+                    {% if filme.capa %}
+                    <img src="{{ seriecapa.url }}" alt="{{ serie.titulo }}">
+                    {% else %}
+                    <img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+                    {% endif %}
+
+                    <a href="#" class="card__play">
+                        <i class="icon ion-ios-play"></i>
+                    </a>
+                </div>
+                <div class="card__content">
+                    <h3 class="card__title"><a href="{% url 'detalhe_titulo_serie' serie.id %}">{{ serie.titulo }}</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- end sidebar -->
+    </div>
+</div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+    let hlsPlayer = null;
+    const videoElement = document.getElementById('video');
+
+    function trocarVideo(novoLink) {
+        if (Hls.isSupported()) {
+            if (hlsPlayer) {
+                hlsPlayer.destroy();
+            }
+            hlsPlayer = new Hls();
+            hlsPlayer.loadSource(novoLink);
+            hlsPlayer.attachMedia(videoElement);
+            hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function () {
+                videoElement.play();
+            });
+        } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+            videoElement.src = novoLink;
+            videoElement.addEventListener('loadedmetadata', function () {
+                videoElement.play();
+            });
+        } else {
+            alert('Seu navegador não suporta vídeos HLS.');
+        }
+    }
+</script>
+
+
+{% endblock %}
