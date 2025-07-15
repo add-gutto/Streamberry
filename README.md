@@ -54,7 +54,7 @@ EMAIL_HOST_PASSWORD='sua-senha-de-email'       # Senha ou token de app do e-mail
 
 # Domínio base da aplicação
 DOMAIN_APP='http://localhost:8000'              # URL base onde a aplicação estará rodando
-
+```
 
 ##  Como Executar Localmente
 
