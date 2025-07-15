@@ -16,56 +16,59 @@
 </section>
 
 <div class="filter">
-    <div class="container">
-        <div class="row">
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row">
+		</div>
+	</div>
+</div>
 </div>
 
 <div class="catalog">
 	<div class="container">
 		<div class="row">
 			{% for item in titulos %}
-	{% with titulo=item.titulo tipo=item.tipo %}
-		<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-			<div class="card">
-				<div class="card__cover">
-					{% if tipo == 'filme' and titulo.filme.capa %}
-						<img src="{{ titulo.filme.capa.url }}" alt="{{ titulo.titulo }}">
-					{% else %}
-						<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
-					{% endif %}
+			{% with titulo=item.titulo tipo=item.tipo %}
+			<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+				<div class="card">
+					<div class="card__cover">
+						<div class="card__cover">
+							{% if titulo.capa %}
+							<img src="{{ titulo.capa.url }}" alt="{{ titulo.titulo }}">
+							{% else %}
+							<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+							{% endif %}
+						</div>
 
-					<a href="{% if tipo == 'filme' %}
+
+						<a href="{% if tipo == 'filme' %}
 								{% url 'detalhe_titulo_filme' titulo.id %}
 							{% elif tipo == 'serie' %}
 								{% url 'detalhe_titulo_serie' titulo.id %}
 							{% else %}
 								#
 							{% endif %}" class="card__play">
-						<i class="icon ion-ios-play"></i>
-					</a>
-				</div>
-				<div class="card__content">
-					<h3 class="card__title">
-						<a href="{% if tipo == 'filme' %}
+							<i class="icon ion-ios-play"></i>
+						</a>
+					</div>
+					<div class="card__content">
+						<h3 class="card__title">
+							<a href="{% if tipo == 'filme' %}
 									{% url 'detalhe_titulo_filme' titulo.id %}
 								{% elif tipo == 'serie' %}
 									{% url 'detalhe_titulo_serie' titulo.id %}
 								{% else %}
 									#
 								{% endif %}">{{ titulo.titulo }}</a>
-					</h3>
+						</h3>
+					</div>
 				</div>
 			</div>
-		</div>
-	{% endwith %}
-{% empty %}
-	<div class="col-12">
-		<p style="color: white;">Nenhum título encontrado.</p>
-	</div>
-{% endfor %}
+			{% endwith %}
+			{% empty %}
+			<div class="col-12">
+				<p style="color: white;">Nenhum título encontrado.</p>
+			</div>
+			{% endfor %}
 
 		</div>
 	</div>

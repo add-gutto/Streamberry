@@ -15,7 +15,7 @@ def home(request):
     return render (request, "index.html")
 
 def central_ajuda(request):
-    return render(request, "titulo/about.html")
+    return render(request, "about.html")
 
 def login_view(request):
     form = CustomAuthenticationForm(request, data=request.POST or None)

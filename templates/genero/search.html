@@ -31,11 +31,11 @@
 		<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 			<div class="card">
 				<div class="card__cover">
-					{% if tipo == 'filme' and titulo.filme.capa %}
-						<img src="{{ titulo.filme.capa.url }}" alt="{{ titulo.titulo }}">
-					{% else %}
-						<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
-					{% endif %}
+					{% if titulo.capa %}
+							<img src="{{ titulo.capa.url }}" alt="{{ titulo.titulo }}">
+							{% else %}
+							<img src="{% static 'img/covers/cover3.jpg' %}" alt="Imagem padrão">
+							{% endif %}
 
 					<a href="{% if tipo == 'filme' %}
 								{% url 'detalhe_titulo_filme' titulo.id %}

@@ -45,20 +45,17 @@ def atualizar_genero(request, pk):
 
 def buscar_por_genero(request, pk):
     genero = get_object_or_404(Genero, pk=pk)
-    # Filtra os títulos que têm o gênero selecionado
     titulos = Titulo.objects.filter(generos=genero).distinct()
 
-    # Se quiser enviar tipo para o template (filme ou serie), pode preparar a lista assim:
     titulos_com_tipo = []
     for titulo in titulos:
         tipo = None
-        # Tenta saber se é filme ou serie (assumindo herança)
         if hasattr(titulo, 'filme'):
             tipo = 'filme'
         elif hasattr(titulo, 'serie'):
             tipo = 'serie'
         else:
-            tipo = 'titulo'  # fallback
+            tipo = 'titulo'  
 
         titulos_com_tipo.append({'titulo': titulo, 'tipo': tipo})
 

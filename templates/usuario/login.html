@@ -13,6 +13,13 @@
         letter-spacing: 1px;
     }
 
+    .sign__form {
+    width: 50%;
+    max-width: none;
+    padding: 60px 15px; /* 20px em cima e embaixo, 15px nas laterais */
+}
+
+
     .btn {
         display: block;
         width: 48%;
@@ -30,10 +37,6 @@
         text-decoration: none;
     }
 
-    .sign__input {
-        margin: 10px;
-    }
-
     a {
         color: #e50914;
     }
@@ -42,7 +45,7 @@
 
 {% block content %}
 <div class="sign__content container">
-    <div class="sign__form container" style="color: #fff;">
+    <div class="sign__form" style="color: #fff;">
         <form method="post" class="container">
             {% csrf_token %}
 
