@@ -16,6 +16,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from usuario import views
 
@@ -29,6 +31,9 @@ urlpatterns = [
     path("", views.home, name= "home"),
     path("about/", views.central_ajuda, name="central_ajuda"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'titulo.views.erro_404'
 handler500 = 'titulo.views.erro_500'

@@ -60,7 +60,7 @@
 <div class="section">
     <div class="container">
         <div class="row" style="color: #fff;">
-            <form method="POST" style="width: 90%; height: 90%;">
+            <form method="POST" enctype="multipart/form-data" style="width: 90%; height: 90%;">
                 {% csrf_token %}
                 {{ form.as_p }}
 

@@ -48,39 +48,41 @@ def detail_titulo_serie(request, pk):
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def cadastrar_filme(request):
     if request.method == 'POST':
-        form = FilmeForm(request.POST)
+        form = FilmeForm(request.POST, request.FILES)  # ← Aqui está o ponto crucial!
         if form.is_valid(): 
             form.save() 
             return redirect('listar_filmes') 
     else:
         form = FilmeForm() 
     
-    return render(request, 'titulo/form.html', 
-    {
+    return render(request, 'titulo/form.html', {
         'form': form, 
         'cancelar_url': request.META.get('HTTP_REFERER'),
-        'form_title' : 'Cadastrar Filme',
-        'form_btn' : 'Cadastrar'})
+        'form_title': 'Cadastrar Filme',
+        'form_btn': 'Cadastrar'
+    })
 
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def editar_filme(request, pk):
     filme = get_object_or_404(Filme, pk=pk)
+    
     if request.method == 'POST':
-        form = FilmeForm(request.POST, instance=filme)
+        form = FilmeForm(request.POST, request.FILES, instance=filme)  # importante incluir request.FILES para upload
         if form.is_valid():
             form.save() 
             return redirect('listar_filmes')
     else:
-        form = FilmeForm(instance=filme)
+        form = FilmeForm(instance=filme)  # só instancia para exibir no formulário
     
-    return render(request, 'titulo/form.html', 
-    {
+    return render(request, 'titulo/form.html', {
         'form': form, 
         'cancelar_url': request.META.get('HTTP_REFERER'),
-        'form_title' : 'Cadastrar Filme',
-        'form_btn' : 'Cadastrar'})
+        'form_title': 'Editar Filme',
+        'form_btn': 'Salvar Alterações'
+    })
+
 
 @login_required
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
@@ -95,12 +97,12 @@ def remover_filme(request, pk):
 @permission_required('usuario.gerenciar_titulos', raise_exception=True)
 def cadastrar_serie(request):
     if request.method == 'POST':
-        form = SerieForm(request.POST)
+        form = SerieForm(request.POST, request.FILES)  # ← Corrigido aqui
         if form.is_valid():
             form.save()
             return redirect('listar_series')
     else:
-        form = SerieForm()
+        form = SerieForm()  # ← Só instancia vazio no GET
     
     return render(request, 'titulo/form.html', {
         'form': form,
@@ -115,12 +117,12 @@ def cadastrar_serie(request):
 def editar_serie(request, pk):
     serie = get_object_or_404(Serie, pk=pk)
     if request.method == 'POST':
-        form = SerieForm(request.POST, instance=serie)
+        form = SerieForm(request.POST, request.FILES, instance=serie)  # ← Corrigido aqui
         if form.is_valid():
             form.save()
             return redirect('listar_series')
     else:
-        form = SerieForm(instance=serie)
+        form = SerieForm(instance=serie)  # ← Correto para GET
     
     return render(request, 'titulo/form.html', {
         'form': form,
