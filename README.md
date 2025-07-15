@@ -44,6 +44,18 @@ As permissões são controladas por grupos e pelo campo `cargo` nos administrado
 * `genero/`: classificação por gênero
 * `favorito/`: controle da lista "Minha Lista"
 
+## Configuração do arquivo `.env`
+Para rodar a aplicação corretamente, crie um arquivo `.env` na raiz do projeto contendo as seguintes variáveis de ambiente:
+
+```env
+# Configurações do e-mail para envio (ex: redefinição de senha)
+EMAIL_HOST_USER='seu-email@exemplo.com'        # Seu usuário de e-mail (ex: conta Gmail)
+EMAIL_HOST_PASSWORD='sua-senha-de-email'       # Senha ou token de app do e-mail
+
+# Domínio base da aplicação
+DOMAIN_APP='http://localhost:8000'              # URL base onde a aplicação estará rodando
+
+
 ##  Como Executar Localmente
 
 ```bash
@@ -58,18 +70,6 @@ source venv/bin/activate  # No Windows use: venv\Scripts\activate
 # Atualize o pip e instale as dependências
 pip install --upgrade pip
 pip install -r requirements.txt
-
-## Configuração do arquivo `.env`
-Para rodar a aplicação corretamente, crie um arquivo `.env` na raiz do projeto contendo as seguintes variáveis de ambiente:
-
-```env
-# Configurações do e-mail para envio (ex: redefinição de senha)
-EMAIL_HOST_USER='seu-email@exemplo.com'        # Seu usuário de e-mail (ex: conta Gmail)
-EMAIL_HOST_PASSWORD='sua-senha-de-email'       # Senha ou token de app do e-mail
-
-# Domínio base da aplicação
-DOMAIN_APP='http://localhost:8000'              # URL base onde a aplicação estará rodando
-
 
 # Execute as migrações
 python manage.py migrate
