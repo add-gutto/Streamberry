@@ -4,7 +4,7 @@
 
 ##  Funcionalidades Principais
 
-* Cadastro e login de usuários com autenticação tradicional via **email** e senha.
+* Cadastro e login de usuários com autenticação via **email** e senha.
 * Sistema de permissões com papéis distintos:
 
   * **Assinante**: acesso ao catálogo e à sua lista de favoritos.
@@ -83,6 +83,7 @@ python3 manage.py runserver
 
 >  **Admin padrão:** `admin@gerente.com`
 >  **Senha:** `admin123`
+© Desenvolvido por **Gustavo Henrique Andrade**, **Luis Fernando Rodrigues** e **Pedro Roberto**.
 
 ---
 
