@@ -83,7 +83,9 @@ python3 manage.py runserver
 
 >  **Admin padrão:** `admin@gerente.com`
 >  **Senha:** `admin123`
+> **Demonstração no YouTube:** [Assista aqui](https://youtu.be/j5kb9GS8E2E)
 © Desenvolvido por **Gustavo Henrique Andrade**, **Luis Fernando Rodrigues** e **Pedro Roberto**.
+>
 
 ---
 
