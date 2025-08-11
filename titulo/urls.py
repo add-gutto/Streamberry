@@ -1,18 +1,29 @@
 from django.urls import path
-from . import views
+from titulo import views as  titulo_views
+from .views import (
+    FilmeDetailView,
+    SerieDetailView,
+    FilmeCreateView,
+    FilmeUpdateView,
+    FilmeDeleteView,
+    SerieCreateView,
+    SerieUpdateView,
+    SerieDeleteView,
+)
 
 urlpatterns = [
-    path("", views.titulos, name="pagina_stream"),
-    path("search/", views.search, name="search"),
-    path('list/filme/', views.listar_filmes, name='listar_filmes'),
-    path('cadastrar/filme/', views.cadastrar_filme, name='cadastrar_filme'),
-    path('editar/filme/<int:pk>/', views.editar_filme, name='editar_filme'),
-    path('del/filme/<int:pk>/', views.remover_filme, name='remover_filme'),
-    path("detail/filme/<int:pk>/", views.detail_titulo_filme, name="detalhe_titulo_filme"),
-    
-    path("detail/serie/<int:pk>/", views.detail_titulo_serie, name="detalhe_titulo_serie"),
-    path('cadastrar/serie/', views.cadastrar_serie, name='cadastrar_serie'),
-    path('editar/serie/<int:pk>/', views.editar_serie, name='editar_serie'),
-    path('del/serie/<int:pk>/', views.remover_serie, name='remover_serie'),
-    path('listar/series/', views.listar_series, name='listar_series'),
+    path("", titulo_views.titulos, name="pagina_stream"),
+    path("search/", titulo_views.search, name="search"),
+
+    path("list/filme/", titulo_views.listar_filmes, name="listar_filmes"),
+    path("cadastrar/filme/", FilmeCreateView.as_view(), name="cadastrar_filme"),
+    path("editar/filme/<int:pk>/", FilmeUpdateView.as_view(), name="editar_filme"),
+    path("del/filme/<int:pk>/", FilmeDeleteView.as_view(), name="remover_filme"),
+    path("detail/filme/<int:pk>/", FilmeDetailView.as_view(), name="detalhe_titulo_filme"),
+
+    path("list/serie/", titulo_views.listar_series, name="listar_series"),
+    path("cadastrar/serie/", SerieCreateView.as_view(), name="cadastrar_serie"),
+    path("editar/serie/<int:pk>/", SerieUpdateView.as_view(), name="editar_serie"),
+    path("del/serie/<int:pk>/", SerieDeleteView.as_view(), name="remover_serie"),
+    path("detail/serie/<int:pk>/", SerieDetailView.as_view(), name="detalhe_titulo_serie"),
 ]
